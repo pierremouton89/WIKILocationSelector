@@ -17,11 +17,21 @@ protocol LocationsRepository {
 }
 
 protocol LocationsListViewModel {
+    func loadContent() async
 }
 
 
 class LocationsListViewModelImplementation: LocationsListViewModel {
     
+    private let locationsRepository: LocationsRepository
+        
+    init(locationsRepository: LocationsRepository){
+        self.locationsRepository = locationsRepository
+    }
+        
+    func loadContent() async {
+        _ = try? await self.locationsRepository.retrieveLocations()
+    }
 
 }
 
@@ -29,15 +39,27 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
 
 final class LocationsListViewModelTests: XCTestCase {
     
+    private func createSUT() -> (LocationsListViewModel, LocationsRepositorySpy) {
+        let repository = LocationsRepositorySpy()
+        let viewModel = LocationsListViewModelImplementation(locationsRepository: repository)
+        return(viewModel, repository)
+    }
+    
     func test_init_doesNotRetrieveLocations() {
         let (_, repository) = createSUT()
         XCTAssertEqual(repository.receivedMessage, [])
     }
     
-    func createSUT() -> (LocationsListViewModel, LocationsRepositorySpy) {
-        let viewModel = LocationsListViewModelImplementation()
-        return(viewModel, LocationsRepositorySpy())
+    
+    func test_loadContent_executeRetrieveCallOnRepository() async {
+        let (sut, repository) = createSUT()
+        
+        await sut.loadContent()
+        
+        XCTAssertEqual(repository.receivedMessage, [.retrieve])
     }
+        
+
 }
 
 
