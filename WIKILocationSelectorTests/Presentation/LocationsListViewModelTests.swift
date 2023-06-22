@@ -36,7 +36,6 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
 }
 
 
-
 final class LocationsListViewModelTests: XCTestCase {
     
     private func createSUT() -> (LocationsListViewModel, LocationsRepositorySpy) {
@@ -59,12 +58,9 @@ final class LocationsListViewModelTests: XCTestCase {
         XCTAssertEqual(repository.receivedMessage, [.retrieve])
     }
         
-
 }
 
-
 class LocationsRepositorySpy: LocationsRepository {
-    
     
     enum ReceivedMessage: Equatable {
         case retrieve
@@ -76,7 +72,4 @@ class LocationsRepositorySpy: LocationsRepository {
         return []
     }
     
-    
 }
-    
-

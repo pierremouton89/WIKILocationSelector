@@ -15,6 +15,7 @@
 		8C0DED262A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED252A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift */; };
 		8C0DED342A44B736000B2A3A /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED332A44B736000B2A3A /* AppRouter.swift */; };
 		8C0DED362A44BBD9000B2A3A /* LocationsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */; };
+		8C0DED3E2A44C7A6000B2A3A /* HTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED3D2A44C7A6000B2A3A /* HTTPClientTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		8C0DED252A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIKILocationSelectorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8C0DED332A44B736000B2A3A /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListViewModelTests.swift; sourceTree = "<group>"; };
+		8C0DED3D2A44C7A6000B2A3A /* HTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 		8C0DED182A44B3DA000B2A3A /* WIKILocationSelectorTests */ = {
 			isa = PBXGroup;
 			children = (
+				8C0DED3C2A44C790000B2A3A /* Data */,
 				8C0DED372A44C686000B2A3A /* Presentation */,
 			);
 			path = WIKILocationSelectorTests;
@@ -138,6 +141,14 @@
 				8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */,
 			);
 			path = Presentation;
+			sourceTree = "<group>";
+		};
+		8C0DED3C2A44C790000B2A3A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8C0DED3D2A44C7A6000B2A3A /* HTTPClientTests.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C0DED3E2A44C7A6000B2A3A /* HTTPClientTests.swift in Sources */,
 				8C0DED362A44BBD9000B2A3A /* LocationsListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
