@@ -110,7 +110,7 @@
 		8C0DED182A44B3DA000B2A3A /* WIKILocationSelectorTests */ = {
 			isa = PBXGroup;
 			children = (
-				8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */,
+				8C0DED372A44C686000B2A3A /* Presentation */,
 			);
 			path = WIKILocationSelectorTests;
 			sourceTree = "<group>";
@@ -128,6 +128,14 @@
 			isa = PBXGroup;
 			children = (
 				8C0DED332A44B736000B2A3A /* AppRouter.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		8C0DED372A44C686000B2A3A /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
