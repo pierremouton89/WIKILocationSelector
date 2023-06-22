@@ -9,13 +9,12 @@
 /* Begin PBXBuildFile section */
 		8C0DED032A44B3D9000B2A3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED022A44B3D9000B2A3A /* AppDelegate.swift */; };
 		8C0DED052A44B3D9000B2A3A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED042A44B3D9000B2A3A /* SceneDelegate.swift */; };
-		8C0DED072A44B3D9000B2A3A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED062A44B3D9000B2A3A /* ViewController.swift */; };
-		8C0DED0A2A44B3D9000B2A3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C0DED082A44B3D9000B2A3A /* Main.storyboard */; };
 		8C0DED0C2A44B3DA000B2A3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C0DED0B2A44B3DA000B2A3A /* Assets.xcassets */; };
 		8C0DED0F2A44B3DA000B2A3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C0DED0D2A44B3DA000B2A3A /* LaunchScreen.storyboard */; };
 		8C0DED1A2A44B3DA000B2A3A /* WIKILocationSelectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED192A44B3DA000B2A3A /* WIKILocationSelectorTests.swift */; };
 		8C0DED242A44B3DA000B2A3A /* WIKILocationSelectorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED232A44B3DA000B2A3A /* WIKILocationSelectorUITests.swift */; };
 		8C0DED262A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED252A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift */; };
+		8C0DED342A44B736000B2A3A /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED332A44B736000B2A3A /* AppRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +38,6 @@
 		8C0DECFF2A44B3D9000B2A3A /* WIKILocationSelector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WIKILocationSelector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C0DED022A44B3D9000B2A3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C0DED042A44B3D9000B2A3A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8C0DED062A44B3D9000B2A3A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		8C0DED092A44B3D9000B2A3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8C0DED0B2A44B3DA000B2A3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C0DED0E2A44B3DA000B2A3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8C0DED102A44B3DA000B2A3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +46,7 @@
 		8C0DED1F2A44B3DA000B2A3A /* WIKILocationSelectorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WIKILocationSelectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C0DED232A44B3DA000B2A3A /* WIKILocationSelectorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIKILocationSelectorUITests.swift; sourceTree = "<group>"; };
 		8C0DED252A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIKILocationSelectorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8C0DED332A44B736000B2A3A /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,10 +97,9 @@
 		8C0DED012A44B3D9000B2A3A /* WIKILocationSelector */ = {
 			isa = PBXGroup;
 			children = (
+				8C0DED322A44B721000B2A3A /* Presentation */,
 				8C0DED022A44B3D9000B2A3A /* AppDelegate.swift */,
 				8C0DED042A44B3D9000B2A3A /* SceneDelegate.swift */,
-				8C0DED062A44B3D9000B2A3A /* ViewController.swift */,
-				8C0DED082A44B3D9000B2A3A /* Main.storyboard */,
 				8C0DED0B2A44B3DA000B2A3A /* Assets.xcassets */,
 				8C0DED0D2A44B3DA000B2A3A /* LaunchScreen.storyboard */,
 				8C0DED102A44B3DA000B2A3A /* Info.plist */,
@@ -125,6 +122,14 @@
 				8C0DED252A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift */,
 			);
 			path = WIKILocationSelectorUITests;
+			sourceTree = "<group>";
+		};
+		8C0DED322A44B721000B2A3A /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				8C0DED332A44B736000B2A3A /* AppRouter.swift */,
+			);
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +238,6 @@
 			files = (
 				8C0DED0F2A44B3DA000B2A3A /* LaunchScreen.storyboard in Resources */,
 				8C0DED0C2A44B3DA000B2A3A /* Assets.xcassets in Resources */,
-				8C0DED0A2A44B3D9000B2A3A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C0DED072A44B3D9000B2A3A /* ViewController.swift in Sources */,
+				8C0DED342A44B736000B2A3A /* AppRouter.swift in Sources */,
 				8C0DED032A44B3D9000B2A3A /* AppDelegate.swift in Sources */,
 				8C0DED052A44B3D9000B2A3A /* SceneDelegate.swift in Sources */,
 			);
@@ -297,14 +301,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		8C0DED082A44B3D9000B2A3A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8C0DED092A44B3D9000B2A3A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		8C0DED0D2A44B3DA000B2A3A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -442,7 +438,6 @@
 				INFOPLIST_FILE = WIKILocationSelector/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -470,7 +465,6 @@
 				INFOPLIST_FILE = WIKILocationSelector/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
