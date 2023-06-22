@@ -11,7 +11,6 @@
 		8C0DED052A44B3D9000B2A3A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED042A44B3D9000B2A3A /* SceneDelegate.swift */; };
 		8C0DED0C2A44B3DA000B2A3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C0DED0B2A44B3DA000B2A3A /* Assets.xcassets */; };
 		8C0DED0F2A44B3DA000B2A3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C0DED0D2A44B3DA000B2A3A /* LaunchScreen.storyboard */; };
-		8C0DED1A2A44B3DA000B2A3A /* WIKILocationSelectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED192A44B3DA000B2A3A /* WIKILocationSelectorTests.swift */; };
 		8C0DED242A44B3DA000B2A3A /* WIKILocationSelectorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED232A44B3DA000B2A3A /* WIKILocationSelectorUITests.swift */; };
 		8C0DED262A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED252A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift */; };
 		8C0DED342A44B736000B2A3A /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED332A44B736000B2A3A /* AppRouter.swift */; };
@@ -42,7 +41,6 @@
 		8C0DED0E2A44B3DA000B2A3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8C0DED102A44B3DA000B2A3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C0DED152A44B3DA000B2A3A /* WIKILocationSelectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WIKILocationSelectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C0DED192A44B3DA000B2A3A /* WIKILocationSelectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIKILocationSelectorTests.swift; sourceTree = "<group>"; };
 		8C0DED1F2A44B3DA000B2A3A /* WIKILocationSelectorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WIKILocationSelectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C0DED232A44B3DA000B2A3A /* WIKILocationSelectorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIKILocationSelectorUITests.swift; sourceTree = "<group>"; };
 		8C0DED252A44B3DA000B2A3A /* WIKILocationSelectorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIKILocationSelectorUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -110,7 +108,6 @@
 		8C0DED182A44B3DA000B2A3A /* WIKILocationSelectorTests */ = {
 			isa = PBXGroup;
 			children = (
-				8C0DED192A44B3DA000B2A3A /* WIKILocationSelectorTests.swift */,
 			);
 			path = WIKILocationSelectorTests;
 			sourceTree = "<group>";
@@ -272,7 +269,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C0DED1A2A44B3DA000B2A3A /* WIKILocationSelectorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
