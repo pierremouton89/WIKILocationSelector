@@ -8,58 +8,6 @@
 import XCTest
 @testable import WIKILocationSelector
 
-final class Box<T> {
-    typealias Listener = (T) -> Void
-    var listener: Listener?
-    var value: T {
-        didSet {
-            DispatchQueue.main.async {
-                self.listener?(self.value)
-            }
-        }
-    }
-    init(_ value: T) {
-        self.value = value
-    }
-    func bind(listener: Listener?) {
-        self.listener = listener
-        listener?(value)
-    }
-}
-
-
-protocol LocationsListViewModel {
-    
-    var title: Box<String> { get }
-    var locations: Box<[Location]> { get }
-    var errorMessage: Box<String?> { get }
-    
-    func loadContent() async
-}
-
-
-class LocationsListViewModelImplementation: LocationsListViewModel {
-    
-    static let TITLE = "Locations"
-    private let locationsRepository: LocationsRepository
-    private(set) var title = Box<String>(TITLE)
-    private(set) var locations  = Box<[Location]>([])
-    private(set) var errorMessage = Box<String?>(.none)
-        
-    init(locationsRepository: LocationsRepository){
-        self.locationsRepository = locationsRepository
-    }
-        
-    func loadContent() async {
-        do {
-            self.locations.value = try await self.locationsRepository.retrieveLocations()
-        } catch {
-            self.errorMessage.value = error.localizedDescription
-        }
-    }
-
-}
-
 
 final class LocationsListViewModelTests: XCTestCase {
     
