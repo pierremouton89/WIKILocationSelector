@@ -51,6 +51,7 @@
 		8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListViewModelTests.swift; sourceTree = "<group>"; };
 		8C0DED492A459164000B2A3A /* HTTPClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClientTests.swift; sourceTree = "<group>"; };
 		8C0DED4A2A459164000B2A3A /* LocationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
+		8CA86E7E2A45C99C00AC4B63 /* WIKILocationSelector.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WIKILocationSelector.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +82,7 @@
 		8C0DECF62A44B3D9000B2A3A = {
 			isa = PBXGroup;
 			children = (
+				8CA86E7E2A45C99C00AC4B63 /* WIKILocationSelector.xctestplan */,
 				8C0DED012A44B3D9000B2A3A /* WIKILocationSelector */,
 				8C0DED182A44B3DA000B2A3A /* WIKILocationSelectorTests */,
 				8C0DED222A44B3DA000B2A3A /* WIKILocationSelectorUITests */,

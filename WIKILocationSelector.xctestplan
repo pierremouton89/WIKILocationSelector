@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "C0989522-6CFD-4CC4-B76A-E3B85851E8B1",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:WIKILocationSelector.xcodeproj",
+      "identifier" : "8C0DECFE2A44B3D9000B2A3A",
+      "name" : "WIKILocationSelector"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WIKILocationSelector.xcodeproj",
+        "identifier" : "8C0DED142A44B3DA000B2A3A",
+        "name" : "WIKILocationSelectorTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:WIKILocationSelector.xcodeproj",
+        "identifier" : "8C0DED1E2A44B3DA000B2A3A",
+        "name" : "WIKILocationSelectorUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
