@@ -8,32 +8,6 @@
 import XCTest
 @testable import WIKILocationSelector
 
-extension LocationData {
-    var location: Location {
-        return .init(
-            name: self.name,
-            latitude: self.latitude,
-            longitude: self.longitude
-        )
-    }
-}
-
-protocol LocationsRepository {
-    func retrieveLocations() async throws -> [Location]
-}
-
-class LocationsRepositoryImplementation: LocationsRepository {
-    private let locationService: LocationService
-    
-    init(locationService: LocationService){
-        self.locationService = locationService
-    }
-    
-    func retrieveLocations() async throws -> [Location] {
-        return try await self.locationService.loadLocations().map { $0.location }
-    }
-}
-
 final class LocationsRepositoryTests: XCTestCase {
     
     
@@ -107,7 +81,6 @@ final class LocationsRepositoryTests: XCTestCase {
 }
 
 class LocationServiceSpy: LocationService {
-    
     
     enum ReceivedMessage: Equatable {
         case retrieve
