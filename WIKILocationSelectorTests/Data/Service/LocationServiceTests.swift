@@ -19,14 +19,10 @@ struct LocationData: Equatable, Codable {
     }
 }
 
-enum LocationResult {
-    case success([LocationData])
-    case failure(Error)
-}
 
 protocol LocationService {
     
-    func loadLocations() async -> LocationResult
+    func loadLocations() async throws -> [LocationData]
 }
 
 class LocationServiceImplementation: LocationService {
@@ -42,17 +38,14 @@ class LocationServiceImplementation: LocationService {
         self.requestURL = requestURL
     }
     
-    func loadLocations() async -> LocationResult {
+    func loadLocations() async throws -> [LocationData] {
         let response = await httpClient.get(from: requestURL)
         switch(response) {
         case .success((let data, _)):
             let decoder = JSONDecoder()
-            if let items = try? decoder.decode([LocationData].self, from: data) {
-                return .success(items)
-            }
-            fatalError("Could not parser data")
+            return try decoder.decode([LocationData].self, from: data)
         case .failure(let error):
-            return .failure(error)
+            throw error
         }
     }
 }
@@ -65,32 +58,36 @@ final class LocationServiceTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [])
     }
     
-    func test_load_requestsDataFromURL() async {
+    func test_loadLocations_requestsDataFromURL() async {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = createSUT(requestURL: url)
         
         let json = makeItemsJSON([])
         client.complete(data: json, url: url)
-        _ = await sut.loadLocations()
-        
-        XCTAssertEqual(client.requestedURLs, [url])
+        do {
+            _ = try await sut.loadLocations()
+            XCTAssertEqual(client.requestedURLs, [url])
+        } catch {
+            XCTFail("Did not expect thrown \(error)")
+        }
     }
     
-    func test_load_deliversEmptyListOnValidResponseWithNoItems() async {
+    func test_lloadLocations_deliversEmptyListOnValidResponseWithNoItems() async {
         let (sut, client) = createSUT()
         let json = makeItemsJSON([])
         client.complete(data: json, url: anyURL())
         
-        let result = await sut.loadLocations()
         
-        guard case .success(let receivedItems) = result else {
-            return XCTFail("Should receive valid response with elements")
+        do {
+            let result = try await sut.loadLocations()
+            XCTAssertTrue(result.isEmpty)
+        } catch {
+            XCTFail("Did not expect thrown \(error)")
         }
-        XCTAssertTrue(receivedItems.isEmpty)
     
     }
     
-    func test_load_deliversItemsOnValidResponseWithItems() async {
+    func test_loadLocations_deliversItemsOnValidResponseWithItems() async {
         let (sut, client) = createSUT()
 
         let item1 = makeItem(
@@ -104,17 +101,18 @@ final class LocationServiceTests: XCTestCase {
             latitude: 40.4380638,
             longitude: 3.7495758
         )
-        let items = [item1.model, item2.model]
+        let expectedResult = [item1.model, item2.model]
         let json = makeItemsJSON([item1.json, item2.json])
         client.complete(data: json, url: anyURL())
 
-        let result = await sut.loadLocations()
-
-        guard case .success(let receivedItems) = result else {
-            return XCTFail("Should receive valid response with elements")
+        do {
+            let result = try await sut.loadLocations()
+            XCTAssertEqual(expectedResult, result)
+        } catch {
+            XCTFail("Did not expect thrown \(error)")
         }
-        XCTAssertEqual(receivedItems, items)
     }
+    
 
     private static func anyURL() -> URL {
         return URL(string: "https://a-given-url.com")!
@@ -160,14 +158,9 @@ class HTTPClientSpy: HTTPClient {
     
     
     func get(from url: URL) async -> HTTPClient.Result {
-        do {
-            let result = self.messages[count].result
-            count += 1
-            return result
-        } catch {
-            XCTFail("Fail")
-        }
-        
+        let result = self.messages[count].result
+        count += 1
+        return result 
     }
     
     func complete(withStatusCode code: Int = 200, data: Data, at index: Int = 0, url: URL) {

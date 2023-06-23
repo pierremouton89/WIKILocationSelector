@@ -29,13 +29,7 @@ class LocationsRepositoryImplementation: LocationsRepository {
     }
     
     func retrieveLocations() async throws -> [Location] {
-        let result = await self.locationService.loadLocations()
-        switch(result) {
-        case .success(let locations):
-            return locations.map { $0.location }
-        case .failure(let error):
-            throw error
-        }
+        return try await self.locationService.loadLocations().map { $0.location }
     }
 }
 
@@ -75,14 +69,14 @@ final class LocationsRepositoryTests: XCTestCase {
             longitude: 3.7495758
         )
         
-        let expectedItems = [item1, item2,item3]
-        service.complete(with: expectedItems)
+        let expectedResult = [item1, item2,item3]
+        service.complete(with: expectedResult)
         
         do {
-            let expectedResult = try await sut.retrieveLocations()
-            XCTAssertEqual(expectedItems.map{ $0.location }, expectedResult)
+            let result = try await sut.retrieveLocations()
+            XCTAssertEqual(expectedResult.map{ $0.location }, result)
         } catch {
-            XCTFail("Expected an error to be thrown")
+            XCTFail("Did not expect thrown \(error)")
         }
         
     }
@@ -113,22 +107,28 @@ final class LocationsRepositoryTests: XCTestCase {
 
 class LocationServiceSpy: LocationService {
     
+    
     enum ReceivedMessage: Equatable {
         case retrieve
     }
     private(set) var receivedMessage = [ReceivedMessage]()
-    private var results = [LocationResult]()
+    private var results = [Result<[LocationData],Error>]()
     private var count = 0
     
-    func loadLocations() async -> LocationResult {
+    func loadLocations() async throws -> [LocationData] {
         receivedMessage.append(.retrieve)
         let result = results[count]
         self.count += 1
-        return result
+        switch(result) {
+        case .success(let locations):
+            return locations
+        case .failure(let error):
+            throw error
+        }
     }
     
     func complete(with locations: [LocationData],  at index: Int = 0) {
-        self.results.insert(.success(locations), at: index)
+        self.results.insert(Result.success(locations), at: index)
     }
     
     func complete(with error: Error,  at index: Int = 0) {
