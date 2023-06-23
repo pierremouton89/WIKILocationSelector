@@ -19,15 +19,23 @@ class AppRouterImplementation: AppRouter {
         self.navigationController = navigationController
     }
     
-    func presentListScreen()  {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .white
-        viewController.title = "Locations"
+    func presentListScreen() {
+        let viewModel = LocationsListViewModelImplementation(locationsRepository: Dependencies.shared.locationsRepository, router: self)
+        let viewController = LocationsListViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func presentAlert(with message: String) {
-        
+        DispatchQueue.main.async {
+            let alert = UIAlertController (
+                title: "Alert",
+                message: message,
+                preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .destructive) {(action) in
+            }
+            alert.addAction(okAction)
+            self.navigationController?.present(alert, animated: true)
+        }
     }
 
 }
