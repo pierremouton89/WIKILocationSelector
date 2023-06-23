@@ -119,6 +119,92 @@ final class LocationsListViewModelTests: XCTestCase {
         }
         await fulfillment(of: [expectation], timeout: 1)
     }
+    
+    func test_selectLocationAtIndex_aValidIndexSelectedThenPresentSelectedLocationOnRouter() async {
+        let (sut, repository, router) = createSUT()
+
+        let item1 = Location(
+            name: "Location1",
+            latitude: 52.3547498,
+            longitude: 4.8339215
+        )
+        let item2 = Location(
+            name: "Copenhagen",
+            latitude: 55.6713442,
+            longitude: 12.523785
+        )
+        let item3 = Location(
+            name: "Location3",
+            latitude: 40.4380638,
+            longitude: 3.7495758
+        )
+        
+        let expectedResult = [item1, item2 ,item3]
+        repository.complete(with: expectedResult)
+        
+        await sut.loadContent()
+        
+        sut.selectLocation(at: 1)
+        
+        XCTAssertEqual([.selectedLocation(item2)], router.receivedMessage)
+    }
+    
+    func test_selectLocationAtIndex_anInvalidIndexSelectedDoesNothing() async {
+        let (sut, repository, router) = createSUT()
+
+        let item1 = Location(
+            name: "Location1",
+            latitude: 52.3547498,
+            longitude: 4.8339215
+        )
+        let item2 = Location(
+            name: "Copenhagen",
+            latitude: 55.6713442,
+            longitude: 12.523785
+        )
+        let item3 = Location(
+            name: "Location3",
+            latitude: 40.4380638,
+            longitude: 3.7495758
+        )
+        
+        let expectedResult = [item1, item2 ,item3]
+        repository.complete(with: expectedResult)
+        
+        await sut.loadContent()
+        
+        sut.selectLocation(at: 40)
+        
+        XCTAssertEqual([], router.receivedMessage)
+    }
+    func test_selectLocationAtIndex_anNegativeIndexSelectedDoesNothing() async {
+        let (sut, repository, router) = createSUT()
+
+        let item1 = Location(
+            name: "Location1",
+            latitude: 52.3547498,
+            longitude: 4.8339215
+        )
+        let item2 = Location(
+            name: "Copenhagen",
+            latitude: 55.6713442,
+            longitude: 12.523785
+        )
+        let item3 = Location(
+            name: "Location3",
+            latitude: 40.4380638,
+            longitude: 3.7495758
+        )
+        
+        let expectedResult = [item1, item2 ,item3]
+        repository.complete(with: expectedResult)
+        
+        await sut.loadContent()
+        
+        sut.selectLocation(at: -2)
+        
+        XCTAssertEqual([], router.receivedMessage)
+    }
 }
 
 class LocationsRepositorySpy: LocationsRepository {
@@ -155,15 +241,20 @@ class AppRouterSpy: AppRouter {
     
     enum ReceivedMessage: Equatable {
         case error(String)
+        case selectedLocation(Location)
     }
     
     private(set) var receivedMessage = [ReceivedMessage]()
+    
+    func presentListScreen() {
+    }
     
     func presentAlert(with message: String) {
         self.receivedMessage.append(.error(message))
     }
     
-    func presentListScreen() {
+    func presentSelected(location: Location) {
+        self.receivedMessage.append(.selectedLocation(location))
     }
     
 }

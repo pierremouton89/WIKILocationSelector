@@ -10,6 +10,7 @@ import UIKit
 protocol AppRouter {
     func presentListScreen()
     func presentAlert(with message: String)
+    func presentSelected(location: Location)
 }
 
 class AppRouterImplementation: AppRouter {
@@ -36,6 +37,10 @@ class AppRouterImplementation: AppRouter {
             alert.addAction(okAction)
             self.navigationController?.present(alert, animated: true)
         }
+    }
+    
+    func presentSelected(location: Location) {
+        
     }
 
 }

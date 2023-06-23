@@ -13,6 +13,7 @@ protocol LocationsListViewModel {
     var locations: Box<[Location]> { get }
     
     func loadContent() async
+    func selectLocation(at index: Int)
 }
 
 
@@ -37,5 +38,10 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         }
     }
     
+    func selectLocation(at index: Int) {
+        if index < self.locations.value.count && index >= 0 {
+            self.router.presentSelected(location: self.locations.value[index])
+        }
+    }
 
 }
