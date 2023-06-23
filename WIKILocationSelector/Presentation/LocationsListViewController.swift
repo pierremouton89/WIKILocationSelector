@@ -88,7 +88,12 @@ class LocationsListViewController: UIViewController {
 
 extension LocationsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.locations.value.count
+        return self.viewModel.locations.value.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.viewModel.selectLocation(at: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 extension LocationsListViewController: UITableViewDataSource {
