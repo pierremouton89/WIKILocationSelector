@@ -8,48 +8,6 @@
 import XCTest
 @testable import WIKILocationSelector
 
-struct LocationData: Equatable, Codable {
-        
-    let name: String?
-    let latitude: Double
-    let longitude: Double
-    enum CodingKeys: String, CodingKey {
-        case name
-        case latitude = "lat"
-        case longitude = "long"
-    }
-}
-
-
-protocol LocationService {
-    
-    func loadLocations() async throws -> [LocationData]
-}
-
-class LocationServiceImplementation: LocationService {
-    
-    
-    static let DEFAULT_URL: URL = URL(string: "https://private-anon-9cd97adfe1-androidtestmobgen.apiary-mock.com/categories")!
-    private let httpClient: HTTPClient
-    private let requestURL: URL
-    
-    
-    init(httpClient: HTTPClient, requestURL: URL = DEFAULT_URL) {
-        self.httpClient = httpClient
-        self.requestURL = requestURL
-    }
-    
-    func loadLocations() async throws -> [LocationData] {
-        let response = await httpClient.get(from: requestURL)
-        switch(response) {
-        case .success((let data, _)):
-            let decoder = JSONDecoder()
-            return try decoder.decode([LocationData].self, from: data)
-        case .failure(let error):
-            throw error
-        }
-    }
-}
 
 final class LocationServiceTests: XCTestCase {
 

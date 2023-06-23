@@ -19,6 +19,8 @@
 		8C0DED4C2A459164000B2A3A /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED4A2A459164000B2A3A /* LocationServiceTests.swift */; };
 		8CA86E822A45CCB900AC4B63 /* LocationRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E812A45CCB900AC4B63 /* LocationRepositoryTests.swift */; };
 		8CA86E852A462D7100AC4B63 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E842A462D7100AC4B63 /* HTTPClient.swift */; };
+		8CA86E872A462DE600AC4B63 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E862A462DE600AC4B63 /* LocationService.swift */; };
+		8CA86E892A462E3C00AC4B63 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E882A462E3C00AC4B63 /* LocationData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		8CA86E7E2A45C99C00AC4B63 /* WIKILocationSelector.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WIKILocationSelector.xctestplan; sourceTree = "<group>"; };
 		8CA86E812A45CCB900AC4B63 /* LocationRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepositoryTests.swift; sourceTree = "<group>"; };
 		8CA86E842A462D7100AC4B63 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		8CA86E862A462DE600AC4B63 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		8CA86E882A462E3C00AC4B63 /* LocationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,8 @@
 			isa = PBXGroup;
 			children = (
 				8CA86E842A462D7100AC4B63 /* HTTPClient.swift */,
+				8CA86E862A462DE600AC4B63 /* LocationService.swift */,
+				8CA86E882A462E3C00AC4B63 /* LocationData.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -325,8 +331,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CA86E892A462E3C00AC4B63 /* LocationData.swift in Sources */,
 				8C0DED342A44B736000B2A3A /* AppRouter.swift in Sources */,
 				8C0DED032A44B3D9000B2A3A /* AppDelegate.swift in Sources */,
+				8CA86E872A462DE600AC4B63 /* LocationService.swift in Sources */,
 				8CA86E852A462D7100AC4B63 /* HTTPClient.swift in Sources */,
 				8C0DED052A44B3D9000B2A3A /* SceneDelegate.swift in Sources */,
 			);

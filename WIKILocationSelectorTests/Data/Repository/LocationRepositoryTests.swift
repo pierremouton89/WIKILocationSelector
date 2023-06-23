@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import WIKILocationSelector
 
 extension LocationData {
     var location: Location {
