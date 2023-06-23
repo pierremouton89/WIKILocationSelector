@@ -8,13 +8,19 @@
 import XCTest
 @testable import WIKILocationSelector
 
-struct Location {
+struct Location: Equatable {
+    let name: String?
+    let latitude: Double
+    let longitude: Double
+    
+    init(name: String? = nil, latitude: Double, longitude: Double) {
+        self.name = name
+        self.latitude = latitude
+        self.longitude = longitude
+    }
     
 }
 
-protocol LocationsRepository {
-    func retrieveLocations() async throws -> [Location]
-}
 
 protocol LocationsListViewModel {
     func loadContent() async

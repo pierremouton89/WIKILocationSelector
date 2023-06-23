@@ -17,6 +17,7 @@
 		8C0DED362A44BBD9000B2A3A /* LocationsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */; };
 		8C0DED4B2A459164000B2A3A /* HTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED492A459164000B2A3A /* HTTPClientTests.swift */; };
 		8C0DED4C2A459164000B2A3A /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED4A2A459164000B2A3A /* LocationServiceTests.swift */; };
+		8CA86E822A45CCB900AC4B63 /* LocationRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E812A45CCB900AC4B63 /* LocationRepositoryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		8C0DED492A459164000B2A3A /* HTTPClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClientTests.swift; sourceTree = "<group>"; };
 		8C0DED4A2A459164000B2A3A /* LocationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 		8CA86E7E2A45C99C00AC4B63 /* WIKILocationSelector.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WIKILocationSelector.xctestplan; sourceTree = "<group>"; };
+		8CA86E812A45CCB900AC4B63 /* LocationRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepositoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +84,8 @@
 		8C0DECF62A44B3D9000B2A3A = {
 			isa = PBXGroup;
 			children = (
-				8CA86E7E2A45C99C00AC4B63 /* WIKILocationSelector.xctestplan */,
 				8C0DED012A44B3D9000B2A3A /* WIKILocationSelector */,
+				8CA86E7E2A45C99C00AC4B63 /* WIKILocationSelector.xctestplan */,
 				8C0DED182A44B3DA000B2A3A /* WIKILocationSelectorTests */,
 				8C0DED222A44B3DA000B2A3A /* WIKILocationSelectorUITests */,
 				8C0DED002A44B3D9000B2A3A /* Products */,
@@ -103,6 +105,7 @@
 		8C0DED012A44B3D9000B2A3A /* WIKILocationSelector */ = {
 			isa = PBXGroup;
 			children = (
+				8CA86E7F2A45CAC200AC4B63 /* Data */,
 				8C0DED322A44B721000B2A3A /* Presentation */,
 				8C0DED022A44B3D9000B2A3A /* AppDelegate.swift */,
 				8C0DED042A44B3D9000B2A3A /* SceneDelegate.swift */,
@@ -150,6 +153,7 @@
 		8C0DED3C2A44C790000B2A3A /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				8CA86E802A45CC6C00AC4B63 /* Repository */,
 				8C0DED482A459164000B2A3A /* Service */,
 			);
 			path = Data;
@@ -162,6 +166,21 @@
 				8C0DED4A2A459164000B2A3A /* LocationServiceTests.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		8CA86E7F2A45CAC200AC4B63 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8CA86E802A45CC6C00AC4B63 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				8CA86E812A45CCB900AC4B63 /* LocationRepositoryTests.swift */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -305,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CA86E822A45CCB900AC4B63 /* LocationRepositoryTests.swift in Sources */,
 				8C0DED4B2A459164000B2A3A /* HTTPClientTests.swift in Sources */,
 				8C0DED362A44BBD9000B2A3A /* LocationsListViewModelTests.swift in Sources */,
 				8C0DED4C2A459164000B2A3A /* LocationServiceTests.swift in Sources */,
