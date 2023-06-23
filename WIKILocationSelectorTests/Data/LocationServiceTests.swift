@@ -96,7 +96,7 @@ final class LocationServiceTests: XCTestCase {
         return(service, client)
     }
     private func makeItemsJSON(_ items: [[String: Any]]) -> Data {
-        return try! JSONSerialization.data(withJSONObject: items)
+        return try! JSONSerialization.data(withJSONObject: ["locations": items])
     }
     
     private func anyURL() -> URL {

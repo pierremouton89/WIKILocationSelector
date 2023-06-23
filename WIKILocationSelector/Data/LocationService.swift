@@ -17,6 +17,12 @@ class LocationServiceImplementation: LocationService {
     private let httpClient: HTTPClient
     private let requestURL: URL
     
+    private struct Locations: Decodable {
+        let locations: [LocationData]
+        enum CodingKeys: String, CodingKey {
+            case locations
+        }
+    }
     
     init(httpClient: HTTPClient, requestURL: URL = DEFAULT_URL) {
         self.httpClient = httpClient
@@ -28,7 +34,8 @@ class LocationServiceImplementation: LocationService {
         switch(response) {
         case .success((let data, _)):
             let decoder = JSONDecoder()
-            return try decoder.decode([LocationData].self, from: data)
+            let locations = try decoder.decode(Locations.self, from: data)
+            return locations.locations
         case .failure(let error):
             throw error
         }
