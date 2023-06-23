@@ -11,7 +11,6 @@ protocol LocationsListViewModel {
     
     var title: Box<String> { get }
     var locations: Box<[Location]> { get }
-    var errorMessage: Box<String?> { get }
     
     func loadContent() async
 }
@@ -23,18 +22,20 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     private let locationsRepository: LocationsRepository
     private(set) var title = Box<String>(TITLE)
     private(set) var locations  = Box<[Location]>([])
-    private(set) var errorMessage = Box<String?>(.none)
+    private let router: AppRouter
         
-    init(locationsRepository: LocationsRepository){
+    init(locationsRepository: LocationsRepository, router: AppRouter){
         self.locationsRepository = locationsRepository
+        self.router = router
     }
         
     func loadContent() async {
         do {
             self.locations.value = try await self.locationsRepository.retrieveLocations()
         } catch {
-            self.errorMessage.value = error.localizedDescription
+            self.router.presentAlert(with: error.localizedDescription)
         }
     }
+    
 
 }

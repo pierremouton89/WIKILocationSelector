@@ -11,21 +11,22 @@ import XCTest
 
 final class LocationsListViewModelTests: XCTestCase {
     
-    private func createSUT() -> (LocationsListViewModel, LocationsRepositorySpy) {
+    private func createSUT() -> (LocationsListViewModel, LocationsRepositorySpy, AppRouterSpy) {
         let repository = LocationsRepositorySpy()
-        let viewModel =  LocationsListViewModelImplementation(locationsRepository: repository)
+        let appRouter = AppRouterSpy()
+        let viewModel =  LocationsListViewModelImplementation(locationsRepository: repository, router: appRouter)
         trackForMemoryLeaks(viewModel)
-        return(viewModel, repository)
+        return(viewModel, repository, appRouter)
     }
     
     func test_init_doesNotRetrieveLocations() {
-        let (_, repository) = createSUT()
+        let (_, repository, _) = createSUT()
         XCTAssertEqual(repository.receivedMessage, [])
     }
     
     
     func test_loadContent_executeRetrieveCallOnRepository() async {
-        let (sut, repository) = createSUT()
+        let (sut, repository, _) = createSUT()
         
         repository.complete(with: [])
         await sut.loadContent()
@@ -34,7 +35,7 @@ final class LocationsListViewModelTests: XCTestCase {
     }
     
     func test_loadContent_emptyListRetrievedFromRepositoryThenListIsPublishedToLocations() async {
-        let (sut, repository) = createSUT()
+        let (sut, repository, _) = createSUT()
         let expectedResult = [Location]()
         repository.complete(with: expectedResult)
         
@@ -50,7 +51,7 @@ final class LocationsListViewModelTests: XCTestCase {
     }
     
     func test_loadContent_populatedListRetrievedFromRepositoryThenListIsPublishedToLocations() async {
-        let (sut, repository) = createSUT()
+        let (sut, repository, _) = createSUT()
         
         let item1 = Location(
             name: "Location1",
@@ -83,7 +84,7 @@ final class LocationsListViewModelTests: XCTestCase {
     }
     
     func test_loadContent_whenErrorIsRetrievedFromRepositoryEmptyListIsPublishedToLocations() async {
-        let (sut, repository) = createSUT()
+        let (sut, repository, _) = createSUT()
         
         repository.complete(with: anyNSError())
         
@@ -97,24 +98,19 @@ final class LocationsListViewModelTests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 1)
     }
     
-    func test_loadContent_whenErrorIsRetrievedFromRepositoryEmptyListIsPublishedToErrorMessage() async {
-        let (sut, repository) = createSUT()
+    func test_loadContent_whenErrorIsRecievedFromRepositoryCallPresentMessageOnRouter() async {
+        let (sut, repository, router) = createSUT()
         
         let error = anyNSError()
         repository.complete(with: error)
         
         await sut.loadContent()
         
-        let expectation = XCTestExpectation(description: "Expected location list to return")
-        sut.errorMessage.bind { message in
-            XCTAssertEqual(anyNSError().localizedDescription, message)
-            expectation.fulfill()
-        }
-        await fulfillment(of: [expectation], timeout: 1)
+        XCTAssertEqual([.error(error.localizedDescription)], router.receivedMessage)
     }
     
     func test_whenBindingToTitle_publishesTitle() async {
-        let (sut, _) = createSUT()
+        let (sut, _, _) = createSUT()
         
         let expectation = XCTestExpectation(description: "Expected title to be published")
         sut.title.bind { title in
@@ -153,4 +149,21 @@ class LocationsRepositorySpy: LocationsRepository {
     func complete(with error: Error,  at index: Int = 0) {
         self.results.insert(.failure(error), at: index)
     }
+}
+
+class AppRouterSpy: AppRouter {
+    
+    enum ReceivedMessage: Equatable {
+        case error(String)
+    }
+    
+    private(set) var receivedMessage = [ReceivedMessage]()
+    
+    func presentAlert(with message: String) {
+        self.receivedMessage.append(.error(message))
+    }
+    
+    func presentListScreen() {
+    }
+    
 }

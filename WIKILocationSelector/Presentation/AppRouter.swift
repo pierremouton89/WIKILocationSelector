@@ -9,6 +9,7 @@ import UIKit
 
 protocol AppRouter {
     func presentListScreen()
+    func presentAlert(with message: String)
 }
 
 class AppRouterImplementation: AppRouter {
@@ -23,6 +24,10 @@ class AppRouterImplementation: AppRouter {
         viewController.view.backgroundColor = .white
         viewController.title = "Locations"
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func presentAlert(with message: String) {
+        
     }
 
 }
