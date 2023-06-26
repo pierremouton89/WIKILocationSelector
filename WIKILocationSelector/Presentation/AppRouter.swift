@@ -41,6 +41,16 @@ class AppRouterImplementation: AppRouter {
     
     func presentSelected(location: Location) {
         
+        guard
+            let base64Data = try? JSONEncoder().encode(location)
+        else {
+            presentAlert(with: "Could not present location. Something went wrong.")
+            return
+        }
+        let base64EncodedLocation = base64Data.base64EncodedString()
+        DispatchQueue.main.async {
+            UIApplication.shared.open(URL(string: "wikipedia://places?location=\(base64EncodedLocation)")!)
+        }
     }
 
 }
