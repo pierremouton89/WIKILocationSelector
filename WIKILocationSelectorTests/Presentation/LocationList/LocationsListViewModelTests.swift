@@ -230,7 +230,7 @@ final class LocationsListViewModelTests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 1)
     }
     
-    func test_bindingToDisplayModels_repoReturnsNonEmptyLocationListPublishesDisplayModels() async {
+    func test_bindingToDisplayModels_whenLoadContentAndRepositoryContainsLocations_LocationDisplayArrayIsPublished() async {
         let (sut, repository, _) = createSUT()
         
         let item1 = Location(
@@ -261,36 +261,6 @@ final class LocationsListViewModelTests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 1)
     }
     
-    func test_whenBindingToDisplayModels_repoReturnsNonEmptyLocationListPublishesDisplayModels() async {
-        let (sut, repository, _) = createSUT()
-        
-        let item1 = Location(
-            name: "Location3",
-            latitude: 4.4,
-            longitude: 4.8339215
-        )
-        let item2 = Location(
-            name: "Copenhagen",
-            latitude: 3.0,
-            longitude: 1.0
-        )
-        let item3 = Location(
-            name: "Location3",
-            latitude: 8.9,
-            longitude: 3.7495758
-        )
-        let expectedResult = [item1, item2 ,item3]
-        repository.complete(with: expectedResult)
-        
-        await sut.loadContent()
-        
-        let expectation = XCTestExpectation(description: "Expected DisplayModels to be published")
-        sut.displayModels.bind { result in
-            XCTAssertEqual(expectedResult.map { .init(location:$0) }, result)
-            expectation.fulfill()
-        }
-        await fulfillment(of: [expectation], timeout: 1)
-    }
 }
 
 class LocationsRepositorySpy: LocationsRepository {
