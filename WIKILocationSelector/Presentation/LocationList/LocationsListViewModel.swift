@@ -38,6 +38,9 @@ protocol LocationsListViewModel {
     
     var openLocationEnabled: Box<Bool> {get}
     func openLocation()
+    
+    var addLocationEnabled: Box<Bool> {get}
+    func addLocation()
 }
 
 class LocationsListViewModelImplementation: LocationsListViewModel {
@@ -67,6 +70,7 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     private(set) var longitudeDescription = Box<String>(LONGITUDE_DESCRIPTION)
     private(set) var longitudeInput = Box<String>("")
     private(set) var openLocationEnabled = Box<Bool>(false)
+    private(set) var addLocationEnabled = Box<Bool>(false)
     private let router: AppRouter
     private let decimalInputFormatter: DecimalInputStringFormatter
         
@@ -148,8 +152,24 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         ))
     }
     
+    func addLocation() {
+        guard
+            let latitude = Decimal(string: latitudeInput.value),
+            let longitude = Decimal(string: longitudeInput.value)
+        else {
+            return self.router.presentAlert(with: "Something went wrong with input")
+        }
+        let location = Location(
+            name: nameInput.value.isEmpty ? nil : nameInput.value,
+            latitude: latitude,
+            longitude: longitude
+        )
+        self.displayModels.value.append(LocationDisplayModel(location: location))
+    }
+    
     private func checkButtonEnabled() {
         openLocationEnabled.value = checkEnabled()
+        addLocationEnabled.value = checkEnabled()
     }
     
     private func checkEnabled() -> Bool {

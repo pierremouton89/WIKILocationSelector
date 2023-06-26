@@ -498,6 +498,171 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
         
     }
     
+    // MARK: - Add location
+    
+    func test_bindingToAddLocationEnabled_noUpdates_returnsFalse() async {
+        let (sut, _, _) = createSUT()
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        
+        sut.addLocationEnabled.bind { result in
+            XCTAssertFalse(result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_bindingToAddLocationEnabled_updateOnlyAValidLatitiude_returnsFalse() async {
+        let (sut, formatterSpy, _) = createSUT()
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        formatterSpy.complete(with: anyValidDecimalString())
+        sut.updateLatitude(with: .changed(anyDecimalString()))
+        
+        sut.addLocationEnabled.bind { result in
+            XCTAssertFalse(result)
+            expectation.fulfill()
+        }
+        
+        
+        await fulfillment(of: [expectation], timeout: 1)
+        
+    }
+    
+    func test_bindingToAddLocationEnabled_updateOnlyAValidLongitude_returnsFalse() async {
+        let (sut, formatterSpy, _) = createSUT()
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        formatterSpy.complete(with: anyValidDecimalString())
+        sut.updateLongitude(with: .changed(anyDecimalString()))
+        
+        sut.addLocationEnabled.bind { result in
+            XCTAssertFalse(result)
+            expectation.fulfill()
+        }
+        
+        
+        await fulfillment(of: [expectation], timeout: 1)
+        
+    }
+    
+    func test_bindingToAddLocationEnabled_updateBothLongitudeAndLongitudeToValidValues_returnsTrue() async {
+        let (sut, formatterSpy, _) = createSUT()
+        
+        let expectation1 = XCTestExpectation(description: "Expected Value to be published")
+        formatterSpy.complete(with: anyValidDecimalString())
+        formatterSpy.complete(with: anyValidDecimalString())
+        
+        sut.updateLongitude(with: .changed(anyDecimalString()))
+        sut.addLocationEnabled.bind { result in
+            XCTAssertFalse(result)
+            expectation1.fulfill()
+        }
+        
+        let expectation2 = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLatitude(with: .changed(anyDecimalString()))
+        
+        sut.addLocationEnabled.bind { result in
+            XCTAssertTrue(result)
+            expectation2.fulfill()
+        }
+        
+        
+        await fulfillment(of: [expectation1, expectation2], timeout: 1)
+        
+    }
+    
+
+    func test_bindingToAddLocationEnabled_updateLongitudeInvalidAndLongitudeToValid_returnsFalse() async {
+        let (sut, formatterSpy, _) = createSUT()
+
+        let expectation1 = XCTestExpectation(description: "Expected Value to be published")
+        formatterSpy.completeWithInvalidValue()
+        formatterSpy.complete(with: anyValidDecimalString())
+        
+        sut.updateLongitude(with: .changed(anyDecimalString()))
+
+        sut.addLocationEnabled.bind { result in
+            XCTAssertFalse(result)
+            expectation1.fulfill()
+        }
+
+        let expectation2 = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLatitude(with: .changed(anyDecimalString()))
+
+        sut.addLocationEnabled.bind { result in
+            XCTAssertFalse(result)
+            expectation2.fulfill()
+        }
+
+
+        await fulfillment(of: [expectation1, expectation2], timeout: 1)
+
+    }
+    
+    func test_bindingToAddLocationEnabled_updateLongitudeValidAndInvalidLongitude_returnsFalse() async {
+        let (sut, formatterSpy, _) = createSUT()
+
+        let expectation1 = XCTestExpectation(description: "Expected Value to be published")
+        formatterSpy.complete(with: anyValidDecimalString())
+        formatterSpy.completeWithInvalidValue()
+        
+        sut.updateLongitude(with: .changed(anyDecimalString()))
+
+        sut.addLocationEnabled.bind { result in
+            XCTAssertFalse(result)
+            expectation1.fulfill()
+        }
+
+        let expectation2 = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLatitude(with: .changed(anyDecimalString()))
+
+        sut.addLocationEnabled.bind { result in
+            XCTAssertFalse(result)
+            expectation2.fulfill()
+        }
+
+
+        await fulfillment(of: [expectation1, expectation2], timeout: 1)
+    }
+    
+    func test_addLocation_appendLocation_toDisplayModels() async {
+        let (sut, _, _) = createSUT()
+    
+        let location = Location(
+            latitude: 52.3547498,
+            longitude: 4.8339215
+        )
+        sut.longitudeInput.value = location.longitude.description
+        sut.latitudeInput.value = location.latitude.description
+        
+        sut.addLocation()
+        
+        XCTAssertEqual([location].map{LocationDisplayModel(location: $0)}, sut.displayModels.value)
+        
+    }
+    
+    func test_addLocation_passesLocation_toAppendLocationToLocationsList() async {
+        let (sut, _, _) = createSUT()
+    
+        let location = Location(
+            latitude: 52.3547498,
+            longitude: 4.8339215
+        )
+        sut.longitudeInput.value = location.longitude.description
+        sut.latitudeInput.value = location.latitude.description
+        
+        sut.addLocation()
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.displayModels.bind { result in
+            XCTAssertEqual([location].map{LocationDisplayModel(location: $0)}, result)
+            expectation.fulfill()
+        }
+
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
     
 }
 
