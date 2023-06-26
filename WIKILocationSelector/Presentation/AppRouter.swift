@@ -40,7 +40,6 @@ class AppRouterImplementation: AppRouter {
     }
     
     func presentSelected(location: Location) {
-        
         guard
             let base64Data = try? JSONEncoder().encode(location)
         else {
@@ -48,9 +47,27 @@ class AppRouterImplementation: AppRouter {
             return
         }
         let base64EncodedLocation = base64Data.base64EncodedString()
-        DispatchQueue.main.async {
-            UIApplication.shared.open(URL(string: "wikipedia://places?location=\(base64EncodedLocation)")!)
+        let deeplinkURLString = "wikipedia://places?location=\(base64EncodedLocation)"
+        guard let url = URL(string: deeplinkURLString) else {
+            presentAlert(with: "Could not present location. Something went wrong.")
+            return
+        }
+        DispatchQueue.main.async {[weak self] in
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            } else {
+                self?.presentAlert(with: "Could not handle displaying of location: \(location.sanitisedDescription).")
+            }
         }
     }
 
+}
+
+private extension Location {
+    var sanitisedDescription: String{
+        guard let name else {
+            return "latitude:\(latitude) longitude:\(longitude)"
+        }
+        return name
+    }
 }
