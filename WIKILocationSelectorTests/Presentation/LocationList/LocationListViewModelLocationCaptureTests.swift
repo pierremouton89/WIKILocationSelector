@@ -231,6 +231,76 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
         }
         await fulfillment(of: [expectation], timeout: 1)
     }
+    
+    func test_updateNameWith_endEditingPassed_valueShouldNotChange() async {
+        let (sut, _) = createSUT()
+        let expected = "Test that this does not changed"
+        
+        
+        sut.nameInput.value = expected
+    
+        sut.updateName(with: .endEditing)
+        
+        XCTAssertEqual(expected, sut.nameInput.value)
+    }
+    
+    func test_updateNameWith_changedWithNewValuePassed_nameInputPublishesValue() async {
+        let (sut, _) = createSUT()
+        let expected = "Update to be applied"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+    
+        sut.updateName(with: .changed(expected))
+        
+        sut.nameInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    // MARK: - Name Description
+    
+    func test_bindingToNameDescription_publishesDefaultNameDescription() async {
+        let (sut, _) = createSUT()
+        let expected = LocationsListViewModelImplementation.NAME_DESCRIPTION
+        
+        let expectation = XCTestExpectation(description: "Expected title to be published")
+        sut.nameDescription.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    // MARK: - Latitude Description
+    
+    func test_bindingToLatitudeDescription_publishesDefaultLatitudeDescription() async {
+        let (sut, _) = createSUT()
+        let expected = LocationsListViewModelImplementation.LATITUDE_DESCRIPTION
+        
+        let expectation = XCTestExpectation(description: "Expected title to be published")
+        sut.latitudeDescription.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    
+    // MARK: - Longitude Description
+    
+    func test_bindingToLongitudeDescription_publishesDefaultLatitudeDescription() async {
+        let (sut, _) = createSUT()
+        let expected = LocationsListViewModelImplementation.LONGITUDE_DESCRIPTION
+        
+        let expectation = XCTestExpectation(description: "Expected title to be published")
+        sut.longitudeDescription.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
 }
 
 class DecimalInputStringFormatterSpy: DecimalInputStringFormatter {

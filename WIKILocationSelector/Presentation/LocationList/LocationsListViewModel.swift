@@ -18,11 +18,15 @@ protocol LocationsListViewModel {
     var title: Box<String> { get }
     var displayModels: Box<[LocationDisplayModel]> {get}
     
+    var nameDescription: Box<String> {get}
     var nameInput: Box<String> {get}
+    func updateName(with: InputTextStateChanges)
     
+    var latitudeDescription: Box<String> {get}
     var latitudeInput: Box<String> {get}
     func updateLatitude(with: InputTextStateChanges)
     
+    var longitudeDescription: Box<String> {get}
     var longitudeInput: Box<String> {get}
     func updateLongitude(with: InputTextStateChanges)
     
@@ -33,12 +37,19 @@ protocol LocationsListViewModel {
 class LocationsListViewModelImplementation: LocationsListViewModel {
     
     static let TITLE = "Locations"
+    static let NAME_DESCRIPTION = "Name"
+    static let LATITUDE_DESCRIPTION = "Latitude"
+    static let LONGITUDE_DESCRIPTION = "Longitude"
     private let locationsRepository: LocationsRepository
     private(set) var title = Box<String>(TITLE)
     private(set) var displayModels  = Box<[LocationDisplayModel]>([])
     
+    private(set) var nameDescription = Box<String>(NAME_DESCRIPTION)
     private(set) var nameInput = Box<String>("")
+    
+    private(set) var latitudeDescription = Box<String>(LATITUDE_DESCRIPTION)
     private(set) var latitudeInput = Box<String>("")
+    private(set) var longitudeDescription = Box<String>(LONGITUDE_DESCRIPTION)
     private(set) var longitudeInput = Box<String>("")
     private let router: AppRouter
     private let decimalInputFormatter: DecimalInputStringFormatter
@@ -47,6 +58,19 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         self.locationsRepository = locationsRepository
         self.router = router
         self.decimalInputFormatter = decimalInputFormatter
+    }
+    
+    func updateName(with change: InputTextStateChanges) {
+        let inputField = self.nameInput
+        let originalValue = inputField.value
+        switch (change) {
+        case .changed(let value):
+            if value != originalValue, let value = value {
+                inputField.value = value
+            }
+        case .endEditing:
+            break
+        }
     }
     
     func updateLatitude(with change: InputTextStateChanges) {
@@ -97,5 +121,3 @@ extension String {
         return Locale.autoupdatingCurrent.decimalSeparator ?? "."
     }()
 }
-
-
