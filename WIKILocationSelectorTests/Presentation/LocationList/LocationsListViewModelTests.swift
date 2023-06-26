@@ -11,6 +11,14 @@ import XCTest
 
 final class LocationsListViewModelTests: XCTestCase {
     
+    private var decimalSeparator: String = ""
+    
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        decimalSeparator = try XCTUnwrap(Locale.autoupdatingCurrent.decimalSeparator)
+    }
+
+    
     private func createSUT() -> (LocationsListViewModel, LocationsRepositorySpy, AppRouterSpy) {
         let repository = LocationsRepositorySpy()
         let appRouter = AppRouterSpy()
@@ -230,7 +238,7 @@ final class LocationsListViewModelTests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 1)
     }
     
-    func test_bindingToDisplayModels_whenLoadContentAndRepositoryContainsLocations_LocationDisplayArrayIsPublished() async {
+    func test_bindingToDisplayModels_whenLoadContentAndRepositoryContainsLocations_locationDisplayArrayIsPublished() async {
         let (sut, repository, _) = createSUT()
         
         let item1 = Location(
@@ -256,6 +264,234 @@ final class LocationsListViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Expected DisplayModels to be published")
         sut.displayModels.bind { result in
             XCTAssertEqual(expectedResult.map { .init(location:$0) }, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    
+    // MARK: - Latitude Input
+    
+    func test_bindingToLatitudeInput_nothingSet_EmptyStringIsPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = ""
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.latitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_bindingToLatitudeInput_whenValueSetValidDecimalSet_decimalStringIsPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "32\(decimalSeparator)32"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.latitudeInput.value = expected
+        sut.latitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLatitude_whenCalledWithDoubleDotString_correctValuePublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "32\(decimalSeparator)3200"
+        let entered = "32\(decimalSeparator)32\(decimalSeparator)00"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLatitude(with: .changed(entered))
+        sut.latitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    
+    func test_updateLatitude_whenCalledWithDoubleDotAndTextString_correctValuePublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "32\(decimalSeparator)3200"
+        let entered = "A32\(decimalSeparator)32A\(decimalSeparator)00"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLatitude(with: .changed(entered))
+        sut.latitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLatitude_whenCalledWithNoValueBeforeDecimalSeparatorAndDoubleDot_correctValuePublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "0\(decimalSeparator)3200"
+        let entered = "\(decimalSeparator)32A\(decimalSeparator)00"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLatitude(with: .changed(entered))
+        sut.latitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLatitude_whenCalledWithOnlyDot_ZeroAndDecimalSepartorPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "0\(decimalSeparator)"
+        let entered = "\(decimalSeparator)"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLatitude(with: .changed(entered))
+        sut.latitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLatitude_whenCalledWithEndEditingAndInitialNegativeValueAndDecimalChacter_publishInitialNegativeValueWithoutDecimalChacter() async {
+        let (sut, _, _) = createSUT()
+        let initialValue = "-13000\(decimalSeparator)"
+        let expected = "-13000"
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.latitudeInput.value = initialValue
+        
+        sut.updateLatitude(with: .endEditing)
+        
+        sut.latitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    // MARK: - Longitude Input
+    
+    func test_bindingToLongitudeInput_nothingSet_EmptyStringIsPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = ""
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_bindingToLongitudeInput_decimalStringIsPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "32\(decimalSeparator)32"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.longitudeInput.value = expected
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLongitude_whenCalledWithValidDecimalNumber_decimalStringIsPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "32\(decimalSeparator)32"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLongitude(with: .changed(expected))
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLongitude_whenCalledWithDoubleDotString_correctValuePublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "32\(decimalSeparator)3200"
+        let entered = "32\(decimalSeparator)32\(decimalSeparator)00"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLongitude(with: .changed(entered))
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    
+    func test_updateLongitude_whenCalledWithDoubleDotAndTextString_correctValuePublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "32\(decimalSeparator)3200"
+        let entered = "A32\(decimalSeparator)32A\(decimalSeparator)00"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLongitude(with: .changed(entered))
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLongitude_whenCalledNoValueBeforeDecimalSeparatorAndDoubleDot_correctValuePublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "0\(decimalSeparator)3200"
+        let entered = "\(decimalSeparator)32A\(decimalSeparator)00"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLongitude(with: .changed(entered))
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLongitude_whenCalledOnlyDotSupplied_ZeroAndDecimalSepartorPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "0\(decimalSeparator)"
+        let entered = "\(decimalSeparator)"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLongitude(with: .changed(entered))
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLongitude_whenCalledWithNegativevalue_NegativeValuePublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "-11000"
+        let entered = "-11000"
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.updateLongitude(with: .changed(entered))
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_updateLongitude_whenCalledWithEndEditingAndnitialNegativeValueAndDecimalChacter_publishInitialNegativeValueWithoutDecimalChacter() async {
+        let (sut, _, _) = createSUT()
+        let initialValue = "-30001\(decimalSeparator)"
+        let expected = "-30001"
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.longitudeInput.value = initialValue
+        
+        sut.updateLongitude(with: .endEditing)
+        
+        sut.longitudeInput.bind { result in
+            XCTAssertEqual(expected, result)
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 1)
