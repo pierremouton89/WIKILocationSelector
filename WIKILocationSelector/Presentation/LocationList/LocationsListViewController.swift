@@ -21,7 +21,7 @@ class LocationsListViewController: UIViewController {
     private let table: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.register(UITableViewCell.self, forCellReuseIdentifier: CELL_IDENTIFIER)
+        table.register(LocationTableViewCell.self, forCellReuseIdentifier: CELL_IDENTIFIER)
         return table
     }()
     
@@ -53,6 +53,7 @@ class LocationsListViewController: UIViewController {
         view.addSubview(loadingView)
         table.delegate = self
         table.dataSource = self
+        table.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         NSLayoutConstraint.activate([
             view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: table.topAnchor),
             view.bottomAnchor.constraint(equalTo: table.bottomAnchor),
@@ -98,9 +99,11 @@ extension LocationsListViewController: UITableViewDelegate {
 }
 extension LocationsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tableCell = tableView.dequeueReusableCell(withIdentifier: Self.CELL_IDENTIFIER, for: indexPath)
-        let name = self.viewModel.displayModels.value[indexPath.row].name
-        tableCell.textLabel?.text = name
+        guard let tableCell = tableView.dequeueReusableCell(withIdentifier: Self.CELL_IDENTIFIER, for: indexPath) as? LocationTableViewCell else {
+            return UITableViewCell()
+        }
+        let displayModel = self.viewModel.displayModels.value[indexPath.row]
+        tableCell.configure(with: displayModel)
         return tableCell
     }
 }
