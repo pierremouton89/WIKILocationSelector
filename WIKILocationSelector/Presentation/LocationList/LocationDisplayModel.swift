@@ -22,9 +22,9 @@ struct LocationDisplayModel: Equatable {
             self.name = "Unknown"
         }
         self.latitudeDescription = latitudeDescription
-        self.latitude = String(location.latitude)
+        self.latitude = location.latitude.description
         self.longitudeDescription = longitudeDescription
-        self.longitude = String(location.longitude)
+        self.longitude = location.longitude.description
         self.location = location
     }
 }
