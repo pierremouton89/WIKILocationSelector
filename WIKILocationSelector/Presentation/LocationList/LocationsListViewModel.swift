@@ -35,6 +35,9 @@ protocol LocationsListViewModel {
     
     func loadContent() async
     func selectLocation(at index: Int)
+    
+    var openLocationEnabled: Box<Bool> {get}
+    func openLocation()
 }
 
 class LocationsListViewModelImplementation: LocationsListViewModel {
@@ -63,6 +66,7 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     private(set) var longitudePlaceHolder = Box<String>(LATITUDE_PLACEHOLDER)
     private(set) var longitudeDescription = Box<String>(LONGITUDE_DESCRIPTION)
     private(set) var longitudeInput = Box<String>("")
+    private(set) var openLocationEnabled = Box<Bool>(false)
     private let router: AppRouter
     private let decimalInputFormatter: DecimalInputStringFormatter
         
@@ -96,6 +100,7 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         case .endEditing:
             inputField.value = decimalInputFormatter.whenDoneEditing(format: originalValue)
         }
+        checkButtonEnabled()
     }
     
     func updateLongitude(with change: InputTextStateChanges) {
@@ -109,6 +114,8 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         case .endEditing:
             inputField.value = decimalInputFormatter.whenDoneEditing(format: originalValue)
         }
+        checkButtonEnabled()
+        
     }
         
         
@@ -125,6 +132,34 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         if index < self.displayModels.value.count && index >= 0 {
             self.router.presentSelected(location: self.displayModels.value[index].location)
         }
+    }
+    
+    func openLocation() {
+        guard
+            let latitude = Decimal(string: latitudeInput.value),
+            let longitude = Decimal(string: longitudeInput.value)
+        else {
+            return self.router.presentAlert(with: "Something went wrong with input")
+        }
+        self.router.presentSelected(location: .init(
+            name: nameInput.value.isEmpty ? nil : nameInput.value,
+            latitude: latitude,
+            longitude: longitude
+        ))
+    }
+    
+    private func checkButtonEnabled() {
+        openLocationEnabled.value = checkEnabled()
+    }
+    
+    private func checkEnabled() -> Bool {
+        if longitudeInput.value.isEmpty {
+            return false
+        }
+        if latitudeInput.value.isEmpty {
+            return false
+        }
+        return true
     }
 
 }
