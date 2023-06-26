@@ -160,10 +160,26 @@ class LocationCaptureView: UIView {
         stackView.distribution = .fillEqually
         stackView.axis = .horizontal
         stackView.spacing = Design.mediumSpacing
+        stackView.addArrangedSubview(addLocation)
         stackView.addArrangedSubview(openLocation)
         return stackView
     }()
     
+    private lazy var addLocation: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Add", for: .normal)
+        button.addTarget(self, action: #selector(onAddLocationTapped), for: .touchUpInside)
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = button.tintColor.cgColor
+        button.layer.cornerRadius = Design.smallSpacing
+        return button
+    }()
+    
+    private var addTapAction: TapAction?
+    @objc
+    private func onAddLocationTapped() {
+        addTapAction?()
+    }
     
     private lazy var openLocation: UIButton = {
         let button = UIButton(type: .system)
@@ -273,6 +289,20 @@ extension LocationCaptureView {
     
     func setOpenLocation(enabled: Bool) {
         self.openLocation.isEnabled = enabled
+    }
+}
+
+
+// MARK: - Add Location button
+
+extension LocationCaptureView {
+    
+    func setAddLocation(tapAction: @escaping TapAction) {
+        self.addTapAction = tapAction
+    }
+    
+    func setAddLocation(enabled: Bool) {
+        self.addLocation.isEnabled = enabled
     }
 }
 

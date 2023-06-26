@@ -96,6 +96,8 @@ class LocationsListViewController: UIViewController {
         self.bindLatitude(viewModel: viewModel)
         self.bindLongitude(viewModel: viewModel)
         self.bindOpenLocation(viewModel: viewModel)
+        self.bindAddLocation(viewModel: viewModel)
+        
     }
     private func bindName(viewModel: LocationsListViewModel) {
         self.viewModel.namePlaceHolder.bind { [weak self] in self?.captureView.setName(placeHolder: $0) }
@@ -121,6 +123,11 @@ class LocationsListViewController: UIViewController {
     private func bindOpenLocation(viewModel: LocationsListViewModel) {
         self.captureView.setOpenLocation {[weak self] in self?.viewModel.openLocation() }
         self.viewModel.openLocationEnabled.bind {[weak self] in self?.captureView.setOpenLocation(enabled: $0) }
+    }
+    
+    private func bindAddLocation(viewModel: LocationsListViewModel) {
+        self.captureView.setAddLocation{[weak self] in self?.viewModel.addLocation() }
+        self.viewModel.addLocationEnabled.bind {[weak self] in self?.captureView.setAddLocation(enabled: $0) }
     }
     
     override func viewWillAppear(_ animated: Bool) {
