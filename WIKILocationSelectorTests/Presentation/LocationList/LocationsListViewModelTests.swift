@@ -497,6 +497,43 @@ final class LocationsListViewModelTests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 1)
     }
     
+    // MARK: - Name Input
+    
+    func test_bindingToNameInput_whenNilIsInitialValue_nilIsPublished() async {
+        let (sut, _, _) = createSUT()
+        
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.nameInput.bind { result in
+            XCTAssertNil(result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_bindingToNameInput_whenNonEmptyStringIsInitialValue_nonEmptyStringIsPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = "SomeValue"
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.nameInput.value = expected
+        sut.nameInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_bindingToNameInput_whenEmptyStringIsInitialValue_anEmptyStringIsPublished() async {
+        let (sut, _, _) = createSUT()
+        let expected = ""
+        let expectation = XCTestExpectation(description: "Expected Value to be published")
+        sut.nameInput.value = expected
+        sut.nameInput.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
 }
 
 class LocationsRepositorySpy: LocationsRepository {

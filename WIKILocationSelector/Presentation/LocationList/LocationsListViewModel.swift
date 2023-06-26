@@ -18,6 +18,8 @@ protocol LocationsListViewModel {
     var title: Box<String> { get }
     var displayModels: Box<[LocationDisplayModel]> {get}
     
+    var nameInput: Box<String?> {get}
+    
     var latitudeInput: Box<String> {get}
     func updateLatitude(with: InputTextStateChanges)
     
@@ -34,6 +36,8 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     private let locationsRepository: LocationsRepository
     private(set) var title = Box<String>(TITLE)
     private(set) var displayModels  = Box<[LocationDisplayModel]>([])
+    
+    private(set) var nameInput = Box<String?>(nil)
     private(set) var latitudeInput = Box<String>("")
     private(set) var longitudeInput = Box<String>("")
     private let router: AppRouter
