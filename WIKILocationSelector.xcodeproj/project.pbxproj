@@ -27,6 +27,7 @@
 		8C8D35A52A49F1EA00F53F08 /* DecimalInputStringFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8D35A42A49F1EA00F53F08 /* DecimalInputStringFormatterTests.swift */; };
 		8C8D35A72A49FEC300F53F08 /* DecimalInputStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8D35A62A49FEC300F53F08 /* DecimalInputStringFormatter.swift */; };
 		8C8D35A92A49FF0A00F53F08 /* LocationListViewModelLocationCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8D35A82A49FF0900F53F08 /* LocationListViewModelLocationCaptureTests.swift */; };
+		8CA815D32A4A0976008CB708 /* LocationCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA815D22A4A0976008CB708 /* LocationCaptureView.swift */; };
 		8CA86E822A45CCB900AC4B63 /* LocationRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E812A45CCB900AC4B63 /* LocationRepositoryTests.swift */; };
 		8CA86E852A462D7100AC4B63 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E842A462D7100AC4B63 /* HTTPClient.swift */; };
 		8CA86E872A462DE600AC4B63 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E862A462DE600AC4B63 /* LocationService.swift */; };
@@ -78,6 +79,7 @@
 		8C8D35A42A49F1EA00F53F08 /* DecimalInputStringFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalInputStringFormatterTests.swift; sourceTree = "<group>"; };
 		8C8D35A62A49FEC300F53F08 /* DecimalInputStringFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalInputStringFormatter.swift; sourceTree = "<group>"; };
 		8C8D35A82A49FF0900F53F08 /* LocationListViewModelLocationCaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListViewModelLocationCaptureTests.swift; sourceTree = "<group>"; };
+		8CA815D22A4A0976008CB708 /* LocationCaptureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCaptureView.swift; sourceTree = "<group>"; };
 		8CA86E7E2A45C99C00AC4B63 /* WIKILocationSelector.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WIKILocationSelector.xctestplan; sourceTree = "<group>"; };
 		8CA86E812A45CCB900AC4B63 /* LocationRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepositoryTests.swift; sourceTree = "<group>"; };
 		8CA86E842A462D7100AC4B63 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 		8C1880362A4971200080D632 /* LocationList */ = {
 			isa = PBXGroup;
 			children = (
+				8CA815D22A4A0976008CB708 /* LocationCaptureView.swift */,
 				8C81DEDD2A46410700232317 /* LocationsListViewModel.swift */,
 				8C81DEE12A46419800232317 /* LocationsListViewController.swift */,
 				8C0BD2342A4986E9008B4409 /* LocationDisplayModel.swift */,
@@ -383,6 +386,7 @@
 				8C8D35A72A49FEC300F53F08 /* DecimalInputStringFormatter.swift in Sources */,
 				8C0DED342A44B736000B2A3A /* AppRouter.swift in Sources */,
 				8CA86E8E2A462F3100AC4B63 /* Location.swift in Sources */,
+				8CA815D32A4A0976008CB708 /* LocationCaptureView.swift in Sources */,
 				8CA86E8C2A462EAF00AC4B63 /* LocationRepository.swift in Sources */,
 				8C0DED032A44B3D9000B2A3A /* AppDelegate.swift in Sources */,
 				8C81DEDE2A46410700232317 /* LocationsListViewModel.swift in Sources */,

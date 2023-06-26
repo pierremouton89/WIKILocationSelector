@@ -25,6 +25,23 @@ class LocationsListViewController: UIViewController {
         return table
     }()
     
+    private lazy var captureContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.addArrangedSubview(captureView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        return stackView
+    }()
+
+    private lazy var captureView: LocationCaptureView = {
+        let view = LocationCaptureView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
     private let viewModel: LocationsListViewModel
     
     init(viewModel: LocationsListViewModel){
@@ -49,19 +66,24 @@ class LocationsListViewController: UIViewController {
     
     private func setupView() {
         self.view.backgroundColor = .white
+        view.addSubview(captureContainer)
         view.addSubview(table)
         view.addSubview(loadingView)
         table.delegate = self
         table.dataSource = self
         table.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         NSLayoutConstraint.activate([
-            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: table.topAnchor),
-            view.bottomAnchor.constraint(equalTo: table.bottomAnchor),
-            view.leadingAnchor.constraint(equalTo: table.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: table.trailingAnchor),
+            captureContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            captureContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            captureContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            table.topAnchor.constraint(equalTo: captureContainer.bottomAnchor),
+            table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            table.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
             
             view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: loadingView.topAnchor),
-            view.bottomAnchor.constraint(equalTo: loadingView.bottomAnchor),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: loadingView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: loadingView.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: loadingView.trailingAnchor)
         ])
@@ -70,6 +92,35 @@ class LocationsListViewController: UIViewController {
     private func bind(viewModel: LocationsListViewModel) {
         self.viewModel.title.bind {[weak self] in self?.title = $0 }
         self.viewModel.displayModels.bind {[weak self] _ in self?.table.reloadData() }
+        self.bindName(viewModel: viewModel)
+        self.bindLatitude(viewModel: viewModel)
+        self.bindLongitude(viewModel: viewModel)
+        self.bindOpenLocation(viewModel: viewModel)
+    }
+    private func bindName(viewModel: LocationsListViewModel) {
+        self.viewModel.namePlaceHolder.bind { [weak self] in self?.captureView.setName(placeHolder: $0) }
+        self.viewModel.nameDescription.bind { [weak self] in self?.captureView.setName(description: $0) }
+        self.viewModel.nameInput.bind {[weak self] in self?.captureView.setName(text: $0) }
+        self.captureView.setName { [weak self] in self?.viewModel.updateName(with: $0) }
+    }
+    
+    private func bindLatitude(viewModel: LocationsListViewModel) {
+        self.viewModel.latitudePlaceHolder.bind { [weak self] in self?.captureView.setLatitude(placeHolder: $0) }
+        self.viewModel.latitudeDescription.bind {[weak self] in self?.captureView.setLatitude(description: $0) }
+        self.viewModel.latitudeInput.bind {[weak self] in self?.captureView.setLatitude(text: $0) }
+        self.captureView.setLatitude { [weak self] in self?.viewModel.updateLatitude(with: $0) }
+    }
+
+    private func bindLongitude(viewModel: LocationsListViewModel) {
+        self.viewModel.longitudePlaceHolder.bind { [weak self] in self?.captureView.setLongitude(placeHolder: $0) }
+        self.viewModel.longitudeDescription.bind {[weak self] in self?.captureView.setLongitude(description: $0) }
+        self.viewModel.longitudeInput.bind {[weak self] in self?.captureView.setLongitude(text: $0) }
+        self.captureView.setLongitude{ [weak self] in self?.viewModel.updateLongitude(with: $0) }
+    }
+    
+    private func bindOpenLocation(viewModel: LocationsListViewModel) {
+        self.captureView.setOpenLocation {[weak self] in self?.viewModel.openLocation() }
+        self.viewModel.openLocationEnabled.bind {[weak self] in self?.captureView.setOpenLocation(enabled: $0) }
     }
     
     override func viewWillAppear(_ animated: Bool) {

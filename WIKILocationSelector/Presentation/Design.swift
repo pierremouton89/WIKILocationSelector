@@ -15,5 +15,6 @@ struct Design {
     static let titleFont = UIFont.preferredFont(forTextStyle: .headline)
     static let descriptionFont = UIFont.preferredFont(forTextStyle: .subheadline)
     static let valueFont = UIFont.preferredFont(forTextStyle: .caption1)
+    static let inputFont = UIFont.preferredFont(forTextStyle: .subheadline)
     
 }
