@@ -15,6 +15,7 @@ class LocationTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(systemName: "globe")
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         return imageView
     }()
     
