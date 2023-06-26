@@ -10,7 +10,8 @@ import UIKit
 
 class LocationsListViewController: UIViewController {
     
-    private static let cellIdentifier = "LocationCellIdentifier"
+    private static let DEFAULT_NAME = "Not Specified"
+    private static let CELL_IDENTIFIER = "LocationCellIdentifier"
     private let loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
         view.style = .large
@@ -21,7 +22,7 @@ class LocationsListViewController: UIViewController {
     private let table: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        table.register(UITableViewCell.self, forCellReuseIdentifier: CELL_IDENTIFIER)
         return table
     }()
     
@@ -98,8 +99,9 @@ extension LocationsListViewController: UITableViewDelegate {
 }
 extension LocationsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tableCell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath)
-        tableCell.textLabel?.text = self.viewModel.locations.value[indexPath.row].name
+        let tableCell = tableView.dequeueReusableCell(withIdentifier: Self.CELL_IDENTIFIER, for: indexPath)
+        let name = self.viewModel.locations.value[indexPath.row].name ?? Self.DEFAULT_NAME
+        tableCell.textLabel?.text = name.isEmpty ?  Self.DEFAULT_NAME : name
         return tableCell
     }
 }
