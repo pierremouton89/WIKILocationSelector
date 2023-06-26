@@ -27,6 +27,7 @@
 		8CA86E892A462E3C00AC4B63 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E882A462E3C00AC4B63 /* LocationData.swift */; };
 		8CA86E8C2A462EAF00AC4B63 /* LocationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E8B2A462EAF00AC4B63 /* LocationRepository.swift */; };
 		8CA86E8E2A462F3100AC4B63 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA86E8D2A462F3100AC4B63 /* Location.swift */; };
+		8CE084082A49824300AF0D29 /* LocationDisplayModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE084072A49824300AF0D29 /* LocationDisplayModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		8CA86E882A462E3C00AC4B63 /* LocationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationData.swift; sourceTree = "<group>"; };
 		8CA86E8B2A462EAF00AC4B63 /* LocationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepository.swift; sourceTree = "<group>"; };
 		8CA86E8D2A462F3100AC4B63 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		8CE084072A49824300AF0D29 /* LocationDisplayModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDisplayModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */,
+				8CE084072A49824300AF0D29 /* LocationDisplayModelTests.swift */,
 			);
 			path = LocationList;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				8C0DED4B2A459164000B2A3A /* HTTPClientTests.swift in Sources */,
 				8C0DED362A44BBD9000B2A3A /* LocationsListViewModelTests.swift in Sources */,
 				8C0DED4C2A459164000B2A3A /* LocationServiceTests.swift in Sources */,
+				8CE084082A49824300AF0D29 /* LocationDisplayModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
