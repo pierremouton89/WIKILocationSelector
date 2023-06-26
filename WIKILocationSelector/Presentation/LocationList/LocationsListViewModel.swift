@@ -41,10 +41,12 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     private(set) var latitudeInput = Box<String>("")
     private(set) var longitudeInput = Box<String>("")
     private let router: AppRouter
+    private let decimalInputFormatter: DecimalInputStringFormatter
         
-    init(locationsRepository: LocationsRepository, router: AppRouter){
+    init(locationsRepository: LocationsRepository, router: AppRouter, decimalInputFormatter: DecimalInputStringFormatter = .init()){
         self.locationsRepository = locationsRepository
         self.router = router
+        self.decimalInputFormatter = decimalInputFormatter
     }
     
     func updateLatitude(with change: InputTextStateChanges) {
@@ -53,10 +55,10 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         switch (change) {
         case .changed(let value):
             if value != originalValue, let value = value {
-                inputField.value = String.santise(decimalValue: value)
+                inputField.value = decimalInputFormatter.whileEditing(format: value)
             }
         case .endEditing:
-            inputField.value = originalValue.trimmingCharacters(in: CharacterSet(charactersIn: String.decimalSeparator))
+            inputField.value = decimalInputFormatter.whenDoneEditing(format: originalValue)
         }
     }
     
@@ -66,10 +68,10 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         switch (change) {
         case .changed(let value):
             if value != originalValue, let value = value {
-                inputField.value = String.santise(decimalValue: value)
+                inputField.value = decimalInputFormatter.whileEditing(format: value)
             }
         case .endEditing:
-            inputField.value = originalValue.trimmingCharacters(in: CharacterSet(charactersIn: String.decimalSeparator))
+            inputField.value = decimalInputFormatter.whenDoneEditing(format: originalValue)
         }
     }
         
@@ -90,20 +92,10 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     }
 
 }
-
-
-private extension String {
-   static let decimalSeparator: String = {
-       return Locale.autoupdatingCurrent.decimalSeparator ?? "."
+extension String {
+    static let decimalSeparator: Self = {
+        return Locale.autoupdatingCurrent.decimalSeparator ?? "."
     }()
-    static func santise(decimalValue: String) -> String {
-        guard decimalValue.contains(decimalSeparator) else {
-            return decimalValue
-        }
-        let decimalOnly = decimalValue.filter("-0123456789\(decimalSeparator)".contains)
-        let numbers = decimalOnly.components(separatedBy: String.decimalSeparator)
-        let firstNumber = numbers.first ?? "0"
-        let sanitesedFirstNumber = firstNumber.isEmpty ? "0" : firstNumber
-        return "\(sanitesedFirstNumber)\(decimalSeparator)\(numbers.suffix(from: 1).joined(separator:""))"
-    }
 }
+
+
