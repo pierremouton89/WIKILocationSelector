@@ -42,8 +42,8 @@ final class LocationsListViewModelTests: XCTestCase {
         await sut.loadContent()
         let expectation = XCTestExpectation(description: "Expected empty location list to return")
         
-        sut.locations.bind { locations in
-            XCTAssertEqual(expectedResult, locations)
+        sut.displayModels.bind { result in
+            XCTAssertEqual(expectedResult, result.map{$0.location})
             expectation.fulfill()
         }
         
@@ -75,8 +75,8 @@ final class LocationsListViewModelTests: XCTestCase {
         await sut.loadContent()
         let expectation = XCTestExpectation(description: "Expected location list to return")
         
-        sut.locations.bind { locations in
-            XCTAssertEqual(expectedResult, locations)
+        sut.displayModels.bind { result in
+            XCTAssertEqual(expectedResult, result.map{$0.location})
             expectation.fulfill()
         }
         
@@ -91,8 +91,8 @@ final class LocationsListViewModelTests: XCTestCase {
         await sut.loadContent()
         
         let expectation = XCTestExpectation(description: "Expected location list to return")
-        sut.locations.bind { locations in
-            XCTAssertEqual([Location](), locations)
+        sut.displayModels.bind { result in
+            XCTAssertEqual([LocationDisplayModel](), result)
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 1)
@@ -109,7 +109,7 @@ final class LocationsListViewModelTests: XCTestCase {
         XCTAssertEqual([.error(error.localizedDescription)], router.receivedMessage)
     }
     
-    func test_whenBindingToTitle_publishesTitle() async {
+    func test_bindingToTitle_publishesTitle() async {
         let (sut, _, _) = createSUT()
         
         let expectation = XCTestExpectation(description: "Expected title to be published")
@@ -129,7 +129,7 @@ final class LocationsListViewModelTests: XCTestCase {
             longitude: 4.8339215
         )
         let item2 = Location(
-            name: "Copenhagen",
+            name: "",
             latitude: 55.6713442,
             longitude: 12.523785
         )
@@ -163,7 +163,6 @@ final class LocationsListViewModelTests: XCTestCase {
             longitude: 12.523785
         )
         let item3 = Location(
-            name: "Location3",
             latitude: 40.4380638,
             longitude: 3.7495758
         )
@@ -177,11 +176,11 @@ final class LocationsListViewModelTests: XCTestCase {
         
         XCTAssertEqual([], router.receivedMessage)
     }
+    
     func test_selectLocationAtIndex_anNegativeIndexSelectedDoesNothing() async {
         let (sut, repository, router) = createSUT()
 
         let item1 = Location(
-            name: "Location1",
             latitude: 52.3547498,
             longitude: 4.8339215
         )
@@ -204,6 +203,93 @@ final class LocationsListViewModelTests: XCTestCase {
         sut.selectLocation(at: -2)
         
         XCTAssertEqual([], router.receivedMessage)
+    }
+    
+    func test_bindingToDisplayModels_whenLoadContentNotCalled_anEmptyArrayIsPublished() async {
+        let (sut, _, _) = createSUT()
+        
+        
+        let expectation = XCTestExpectation(description: "Expected DisplayModels to be published")
+        sut.displayModels.bind { result in
+            XCTAssertEqual([LocationDisplayModel](), result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_bindingToDisplayModels_whenLoadContentAndRepositoryContainsEmptyList_anEmptyArrayIsPublished() async {
+        let (sut, repository, _) = createSUT()
+        
+        let expectedResult = [Location]()
+        repository.complete(with: expectedResult)
+        let expectation = XCTestExpectation(description: "Expected DisplayModels to be published")
+        sut.displayModels.bind { result in
+            XCTAssertEqual(expectedResult.map { .init(location: $0) }, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_bindingToDisplayModels_repoReturnsNonEmptyLocationListPublishesDisplayModels() async {
+        let (sut, repository, _) = createSUT()
+        
+        let item1 = Location(
+            name: "Location3",
+            latitude: 4.4,
+            longitude: 4.8339215
+        )
+        let item2 = Location(
+            name: "Copenhagen",
+            latitude: 3.0,
+            longitude: 1.0
+        )
+        let item3 = Location(
+            name: "Location3",
+            latitude: 8.9,
+            longitude: 3.7495758
+        )
+        let expectedResult = [item1, item2 ,item3]
+        repository.complete(with: expectedResult)
+        
+        await sut.loadContent()
+        
+        let expectation = XCTestExpectation(description: "Expected DisplayModels to be published")
+        sut.displayModels.bind { result in
+            XCTAssertEqual(expectedResult.map { .init(location:$0) }, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    func test_whenBindingToDisplayModels_repoReturnsNonEmptyLocationListPublishesDisplayModels() async {
+        let (sut, repository, _) = createSUT()
+        
+        let item1 = Location(
+            name: "Location3",
+            latitude: 4.4,
+            longitude: 4.8339215
+        )
+        let item2 = Location(
+            name: "Copenhagen",
+            latitude: 3.0,
+            longitude: 1.0
+        )
+        let item3 = Location(
+            name: "Location3",
+            latitude: 8.9,
+            longitude: 3.7495758
+        )
+        let expectedResult = [item1, item2 ,item3]
+        repository.complete(with: expectedResult)
+        
+        await sut.loadContent()
+        
+        let expectation = XCTestExpectation(description: "Expected DisplayModels to be published")
+        sut.displayModels.bind { result in
+            XCTAssertEqual(expectedResult.map { .init(location:$0) }, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
     }
 }
 

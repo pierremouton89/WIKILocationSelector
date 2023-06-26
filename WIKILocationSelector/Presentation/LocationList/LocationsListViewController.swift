@@ -10,7 +10,6 @@ import UIKit
 
 class LocationsListViewController: UIViewController {
     
-    private static let DEFAULT_NAME = "Not Specified"
     private static let CELL_IDENTIFIER = "LocationCellIdentifier"
     private let loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
@@ -69,7 +68,7 @@ class LocationsListViewController: UIViewController {
     
     private func bind(viewModel: LocationsListViewModel) {
         self.viewModel.title.bind {[weak self] in self?.title = $0 }
-        self.viewModel.locations.bind {[weak self] _ in self?.table.reloadData() }
+        self.viewModel.displayModels.bind {[weak self] _ in self?.table.reloadData() }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +88,7 @@ class LocationsListViewController: UIViewController {
 
 extension LocationsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.locations.value.count
+        return self.viewModel.displayModels.value.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -100,8 +99,8 @@ extension LocationsListViewController: UITableViewDelegate {
 extension LocationsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableCell = tableView.dequeueReusableCell(withIdentifier: Self.CELL_IDENTIFIER, for: indexPath)
-        let name = self.viewModel.locations.value[indexPath.row].name ?? Self.DEFAULT_NAME
-        tableCell.textLabel?.text = name.isEmpty ?  Self.DEFAULT_NAME : name
+        let name = self.viewModel.displayModels.value[indexPath.row].name
+        tableCell.textLabel?.text = name
         return tableCell
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C0BD2352A4986E9008B4409 /* LocationDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0BD2342A4986E9008B4409 /* LocationDisplayModel.swift */; };
 		8C0DED032A44B3D9000B2A3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED022A44B3D9000B2A3A /* AppDelegate.swift */; };
 		8C0DED052A44B3D9000B2A3A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0DED042A44B3D9000B2A3A /* SceneDelegate.swift */; };
 		8C0DED0C2A44B3DA000B2A3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C0DED0B2A44B3DA000B2A3A /* Assets.xcassets */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8C0BD2342A4986E9008B4409 /* LocationDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDisplayModel.swift; sourceTree = "<group>"; };
 		8C0DECFF2A44B3D9000B2A3A /* WIKILocationSelector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WIKILocationSelector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C0DED022A44B3D9000B2A3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C0DED042A44B3D9000B2A3A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			children = (
 				8C81DEDD2A46410700232317 /* LocationsListViewModel.swift */,
 				8C81DEE12A46419800232317 /* LocationsListViewController.swift */,
+				8C0BD2342A4986E9008B4409 /* LocationDisplayModel.swift */,
 			);
 			path = LocationList;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				8C0DED032A44B3D9000B2A3A /* AppDelegate.swift in Sources */,
 				8C81DEDE2A46410700232317 /* LocationsListViewModel.swift in Sources */,
 				8CA86E872A462DE600AC4B63 /* LocationService.swift in Sources */,
+				8C0BD2352A4986E9008B4409 /* LocationDisplayModel.swift in Sources */,
 				8CA86E852A462D7100AC4B63 /* HTTPClient.swift in Sources */,
 				8C0DED052A44B3D9000B2A3A /* SceneDelegate.swift in Sources */,
 				8C81DEE22A46419800232317 /* LocationsListViewController.swift in Sources */,

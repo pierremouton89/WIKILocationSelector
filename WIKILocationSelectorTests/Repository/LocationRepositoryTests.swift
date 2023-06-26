@@ -72,6 +72,8 @@ final class LocationsRepositoryTests: XCTestCase {
     }
     
     
+    
+    
     private func createSUT() -> (LocationsRepository, LocationServiceSpy) {
         let service = LocationServiceSpy()
         let repository = LocationsRepositoryImplementation(locationService: service)
