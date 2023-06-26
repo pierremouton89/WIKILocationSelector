@@ -301,6 +301,50 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
         }
         await fulfillment(of: [expectation], timeout: 1)
     }
+    
+    
+    // MARK: - Name Placeholder
+    
+    func test_bindingToNamePlaceHolder_publishesDefaultNamePlaceHolder() async {
+        let (sut, _) = createSUT()
+        let expected = LocationsListViewModelImplementation.NAME_PLACEHOLDER
+        
+        let expectation = XCTestExpectation(description: "Expected title to be published")
+        sut.namePlaceHolder.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    // MARK: - Latitude PlaceHolder
+    
+    func test_bindingToLatitudePlaceHolder_publishesDefaultLatitudePlaceHolder() async {
+        let (sut, _) = createSUT()
+        let expected = LocationsListViewModelImplementation.LATITUDE_PLACEHOLDER
+        
+        let expectation = XCTestExpectation(description: "Expected title to be published")
+        sut.latitudePlaceHolder.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
+    
+    
+    // MARK: - Longitude PlaceHolder
+    
+    func test_bindingToLongitudePlaceHolder_publishesDefaultLatitudePlaceHolder() async {
+        let (sut, _) = createSUT()
+        let expected = LocationsListViewModelImplementation.LONGITUDE_PLACEHOLDER
+        
+        let expectation = XCTestExpectation(description: "Expected title to be published")
+        sut.longitudePlaceHolder.bind { result in
+            XCTAssertEqual(expected, result)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+    }
 }
 
 class DecimalInputStringFormatterSpy: DecimalInputStringFormatter {

@@ -18,14 +18,17 @@ protocol LocationsListViewModel {
     var title: Box<String> { get }
     var displayModels: Box<[LocationDisplayModel]> {get}
     
+    var namePlaceHolder: Box<String> {get}
     var nameDescription: Box<String> {get}
     var nameInput: Box<String> {get}
     func updateName(with: InputTextStateChanges)
     
+    var latitudePlaceHolder: Box<String> {get}
     var latitudeDescription: Box<String> {get}
     var latitudeInput: Box<String> {get}
     func updateLatitude(with: InputTextStateChanges)
     
+    var longitudePlaceHolder: Box<String> {get}
     var longitudeDescription: Box<String> {get}
     var longitudeInput: Box<String> {get}
     func updateLongitude(with: InputTextStateChanges)
@@ -38,17 +41,26 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     
     static let TITLE = "Locations"
     static let NAME_DESCRIPTION = "Name"
+    static let NAME_PLACEHOLDER = "Unknown"
     static let LATITUDE_DESCRIPTION = "Latitude"
+    static let LATITUDE_PLACEHOLDER = "0.0"
     static let LONGITUDE_DESCRIPTION = "Longitude"
+    static let LONGITUDE_PLACEHOLDER = "0.0"
+    
     private let locationsRepository: LocationsRepository
     private(set) var title = Box<String>(TITLE)
     private(set) var displayModels  = Box<[LocationDisplayModel]>([])
     
+    
+    private(set) var namePlaceHolder = Box<String>(NAME_PLACEHOLDER)
     private(set) var nameDescription = Box<String>(NAME_DESCRIPTION)
     private(set) var nameInput = Box<String>("")
     
+    private(set) var latitudePlaceHolder = Box<String>(LATITUDE_PLACEHOLDER)
     private(set) var latitudeDescription = Box<String>(LATITUDE_DESCRIPTION)
     private(set) var latitudeInput = Box<String>("")
+    
+    private(set) var longitudePlaceHolder = Box<String>(LATITUDE_PLACEHOLDER)
     private(set) var longitudeDescription = Box<String>(LONGITUDE_DESCRIPTION)
     private(set) var longitudeInput = Box<String>("")
     private let router: AppRouter
