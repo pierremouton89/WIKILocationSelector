@@ -158,10 +158,9 @@
 		8C0DED322A44B721000B2A3A /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				8C1880362A4971200080D632 /* LocationList */,
 				8C0DED332A44B736000B2A3A /* AppRouter.swift */,
 				8C81DEDF2A46411400232317 /* Box.swift */,
-				8C81DEDD2A46410700232317 /* LocationsListViewModel.swift */,
-				8C81DEE12A46419800232317 /* LocationsListViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -169,7 +168,7 @@
 		8C0DED372A44C686000B2A3A /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */,
+				8C1880372A49714F0080D632 /* LocationList */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -181,6 +180,23 @@
 				8C0DED4A2A459164000B2A3A /* LocationServiceTests.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		8C1880362A4971200080D632 /* LocationList */ = {
+			isa = PBXGroup;
+			children = (
+				8C81DEDD2A46410700232317 /* LocationsListViewModel.swift */,
+				8C81DEE12A46419800232317 /* LocationsListViewController.swift */,
+			);
+			path = LocationList;
+			sourceTree = "<group>";
+		};
+		8C1880372A49714F0080D632 /* LocationList */ = {
+			isa = PBXGroup;
+			children = (
+				8C0DED352A44BBD9000B2A3A /* LocationsListViewModelTests.swift */,
+			);
+			path = LocationList;
 			sourceTree = "<group>";
 		};
 		8CA86E7F2A45CAC200AC4B63 /* Data */ = {
