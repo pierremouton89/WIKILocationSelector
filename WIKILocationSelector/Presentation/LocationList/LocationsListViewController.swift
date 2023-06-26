@@ -22,6 +22,7 @@ class LocationsListViewController: UIViewController {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(LocationTableViewCell.self, forCellReuseIdentifier: CELL_IDENTIFIER)
+        table.keyboardDismissMode = .onDrag
         return table
     }()
     
