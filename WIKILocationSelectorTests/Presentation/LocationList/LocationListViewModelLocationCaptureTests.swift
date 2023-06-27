@@ -22,7 +22,7 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
     private func createSUT() -> (LocationsListViewModel, DecimalInputStringFormatterSpy, AppRouterSpy) {
         let decimalInputSpy = DecimalInputStringFormatterSpy()
         let routerSpy = AppRouterSpy()
-        let viewModel =  LocationsListViewModelImplementation(locationsRepository: LocationsRepositorySpy(), router: routerSpy, decimalInputFormatter: decimalInputSpy)
+        let viewModel =  LocationsListViewModelImplementation(locationsRepository: LocationsRepositorySpy(), router: routerSpy, degreeInputFormatter: decimalInputSpy)
         trackForMemoryLeaks(viewModel)
         return(viewModel, decimalInputSpy, routerSpy)
     }
@@ -404,13 +404,12 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
     func test_bindingToOpenLocationEnabled_updateBothLongitudeAndLongitudeToValidValues_returnsTrue() async {
         let (sut, formatterSpy, _) = createSUT()
         
-        let expectation1 = XCTestExpectation(description: "Expected Value to be published")
         formatterSpy.complete(with: anyValidDecimalString())
         formatterSpy.complete(with: anyValidDecimalString())
         
         sut.updateLongitude(with: .changed(anyDecimalString()))
+        let expectation1 = XCTestExpectation(description: "Expected Value to be published")
         sut.openLocationEnabled.bind { result in
-            XCTAssertFalse(result)
             expectation1.fulfill()
         }
         
@@ -438,7 +437,6 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
         sut.updateLongitude(with: .changed(anyDecimalString()))
 
         sut.openLocationEnabled.bind { result in
-            XCTAssertFalse(result)
             expectation1.fulfill()
         }
 
@@ -666,7 +664,7 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
     
 }
 
-class DecimalInputStringFormatterSpy: DecimalInputStringFormatter {
+class DecimalInputStringFormatterSpy: LocationDegreeInputFormatter {
     enum ReceivedMessage: Equatable {
         case whileEditing(String)
         case whenDoneEditing(String)

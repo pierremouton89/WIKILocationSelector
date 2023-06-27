@@ -1,5 +1,5 @@
 //
-//  DecimalInputStringFormatter.swift
+//  LocationDegreeInputFormatter.swift
 //  WIKILocationSelector
 //
 //  Created by Pierre Mouton on 26/06/2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DecimalInputStringFormatter {
+class LocationDegreeInputFormatter {
 
     func whileEditing(format decimalValue: String, decimalSeparator: String = String.decimalSeparator) -> String {
         let filterOptions: String = "0123456789\(decimalSeparator)"
@@ -33,7 +33,21 @@ class DecimalInputStringFormatter {
         guard !decimalValue.isEmpty else {
             return ""
         }
-        return Decimal(string:decimalValue.trimmingCharacters(in: CharacterSet(charactersIn: String.decimalSeparator)))?.description  ?? "0"
+        
+        let value = Double(decimalValue) ?? 0
+        if value == 0 {
+            return "0"
+        }
+        return NumberFormatter.degreeNumberFormatter.string(from: NSNumber(value: value)) ?? "0"
     }
     
+}
+
+extension NumberFormatter {
+    static let degreeNumberFormatter: NumberFormatter =  {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 6
+        numberFormatter.minimumFractionDigits = 0
+        return numberFormatter
+    }()
 }

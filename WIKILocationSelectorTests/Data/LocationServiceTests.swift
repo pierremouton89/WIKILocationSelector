@@ -77,7 +77,7 @@ final class LocationServiceTests: XCTestCase {
         return URL(string: "https://a-given-url.com")!
     }
     
-    private func makeItem(name: String? = .none, latitude: Decimal, longitude: Decimal) -> (model: LocationData, json: [String: Any]) {
+    private func makeItem(name: String? = .none, latitude: Double, longitude: Double) -> (model: LocationData, json: [String: Any]) {
         let item = LocationData(name: name, latitude: latitude, longitude: longitude)
         
         var json = [String : Any]()

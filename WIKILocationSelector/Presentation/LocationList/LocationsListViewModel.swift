@@ -72,12 +72,12 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     private(set) var openLocationEnabled = Box<Bool>(false)
     private(set) var addLocationEnabled = Box<Bool>(false)
     private let router: AppRouter
-    private let decimalInputFormatter: DecimalInputStringFormatter
+    private let degreeInputFormatter: LocationDegreeInputFormatter
         
-    init(locationsRepository: LocationsRepository, router: AppRouter, decimalInputFormatter: DecimalInputStringFormatter = .init()){
+    init(locationsRepository: LocationsRepository, router: AppRouter, degreeInputFormatter: LocationDegreeInputFormatter = .init()){
         self.locationsRepository = locationsRepository
         self.router = router
-        self.decimalInputFormatter = decimalInputFormatter
+        self.degreeInputFormatter = degreeInputFormatter
     }
     
     func updateName(with change: InputTextStateChanges) {
@@ -99,10 +99,10 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         switch (change) {
         case .changed(let value):
             if value != originalValue, let value = value {
-                inputField.value = decimalInputFormatter.whileEditing(format: value)
+                inputField.value = degreeInputFormatter.whileEditing(format: value)
             }
         case .endEditing:
-            inputField.value = decimalInputFormatter.whenDoneEditing(format: originalValue)
+            inputField.value = degreeInputFormatter.whenDoneEditing(format: originalValue)
         }
         checkButtonEnabled()
     }
@@ -113,10 +113,10 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
         switch (change) {
         case .changed(let value):
             if value != originalValue, let value = value {
-                inputField.value = decimalInputFormatter.whileEditing(format: value)
+                inputField.value = degreeInputFormatter.whileEditing(format: value)
             }
         case .endEditing:
-            inputField.value = decimalInputFormatter.whenDoneEditing(format: originalValue)
+            inputField.value = degreeInputFormatter.whenDoneEditing(format: originalValue)
         }
         checkButtonEnabled()
         
@@ -140,8 +140,8 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     
     func openLocation() {
         guard
-            let latitude = Decimal(string: latitudeInput.value),
-            let longitude = Decimal(string: longitudeInput.value)
+            let latitude = Double(latitudeInput.value),
+            let longitude = Double(longitudeInput.value)
         else {
             return self.router.presentAlert(with: "Something went wrong with input")
         }
@@ -154,8 +154,8 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     
     func addLocation() {
         guard
-            let latitude = Decimal(string: latitudeInput.value),
-            let longitude = Decimal(string: longitudeInput.value)
+            let latitude = Double(latitudeInput.value),
+            let longitude = Double(longitudeInput.value)
         else {
             return self.router.presentAlert(with: "Something went wrong with input")
         }

@@ -10,8 +10,8 @@ import Foundation
 struct LocationData: Equatable, Decodable {
         
     let name: String?
-    let latitude: Decimal
-    let longitude: Decimal
+    let latitude: Double
+    let longitude: Double
     enum CodingKeys: String, CodingKey {
         case name
         case latitude = "lat"

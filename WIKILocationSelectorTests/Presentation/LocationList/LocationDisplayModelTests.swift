@@ -92,7 +92,7 @@ final class LocationDisplayModelTests: XCTestCase {
     }
     
     func test_longitude_returnsLogitudeAsString()  {
-        let expectedLongitude: Decimal = 20.232323232
+        let expectedLongitude = 20.232323232
         let location = Location(latitude: 13.232323232, longitude: expectedLongitude)
         
         let sut = LocationDisplayModel(location: location)
@@ -101,7 +101,7 @@ final class LocationDisplayModelTests: XCTestCase {
     }
     
     func test_latitude_returnsLatitudeAsString()  {
-        let expectedLatitude: Decimal = 20.232323232
+        let expectedLatitude = 20.232323232
         let location = Location(latitude: expectedLatitude, longitude: 32.232323232)
         
         let sut = LocationDisplayModel(location: location)

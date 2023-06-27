@@ -9,10 +9,10 @@ import Foundation
 
 struct Location: Equatable, Encodable {
     let name: String?
-    let latitude: Decimal
-    let longitude: Decimal
+    let latitude: Double
+    let longitude: Double
     
-    init(name: String? = nil, latitude: Decimal, longitude: Decimal) {
+    init(name: String? = nil, latitude: Double, longitude: Double) {
         self.name = name
         self.latitude = latitude
         self.longitude = longitude

@@ -1,5 +1,5 @@
 //
-//  DecimalInputStringFormatterTests.swift
+//  LocationDegreeInputFormatterTests.swift
 //  WIKILocationSelectorTests
 //
 //  Created by Pierre Mouton on 26/06/2023.
@@ -8,9 +8,9 @@
 import XCTest
 @testable import WIKILocationSelector
 
-final class DecimalInputStringFormatterTests: XCTestCase {
+final class LocationDegreeInputFormatterTests: XCTestCase {
     
-    private func createSUT() -> DecimalInputStringFormatter {
+    private func createSUT() -> LocationDegreeInputFormatter {
         return .init()
     }
     
