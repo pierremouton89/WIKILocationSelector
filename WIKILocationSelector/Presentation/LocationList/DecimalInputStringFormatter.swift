@@ -20,12 +20,9 @@ class DecimalInputStringFormatter {
         if filterdDecimal == "0" {
             return decimalOnly
         }
-        if filterdDecimal == decimalSeparator {
-            return "\(sanitisedDash)0\(filterdDecimal)"
-        }
         let numbers = decimalOnly.components(separatedBy: String.decimalSeparator)
         let firstNumber = numbers.first ?? "0"
-        let sanitesedFirstNumber = firstNumber.isEmpty ? "0" : firstNumber
+        let sanitesedFirstNumber = firstNumber.isEmpty ? "" : firstNumber
         guard decimalOnly.contains(decimalSeparator) else {
             return "\(sanitesedFirstNumber)"
         }
@@ -33,7 +30,10 @@ class DecimalInputStringFormatter {
     }
     
     func whenDoneEditing(format decimalValue: String, decimalSeparator: String = String.decimalSeparator) -> String {
-       return Decimal(string:decimalValue.trimmingCharacters(in: CharacterSet(charactersIn: String.decimalSeparator)))?.description  ?? ""
+        guard !decimalValue.isEmpty else {
+            return ""
+        }
+        return Decimal(string:decimalValue.trimmingCharacters(in: CharacterSet(charactersIn: String.decimalSeparator)))?.description  ?? "0"
     }
     
 }

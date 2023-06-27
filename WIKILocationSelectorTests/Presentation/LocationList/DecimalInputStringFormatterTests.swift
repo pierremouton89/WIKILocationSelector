@@ -45,7 +45,7 @@ final class DecimalInputStringFormatterTests: XCTestCase {
 
     func test_whileEditingFormatDecimal_whenCalledWithWithNoValueBeforeDecimalSeparatorAndDoubleDecimalSeparator_returnsCorrectValue()  {
         let entered = "\(decimalSeparator)32A\(decimalSeparator)00"
-        let expected = "0\(decimalSeparator)3200"
+        let expected = "\(decimalSeparator)3200"
         let sut = createSUT()
         
         let result = sut.whileEditing(format: entered)
@@ -55,7 +55,7 @@ final class DecimalInputStringFormatterTests: XCTestCase {
 
     func test_whileEditingFormatDecimal_whenCalledWithOnlyDecimapSeparator_returnsZeroAndDecimalSepartor()  {
         let entered = "\(decimalSeparator)"
-        let expected = "0\(decimalSeparator)"
+        let expected = "\(decimalSeparator)"
         let sut = createSUT()
         
         let result = sut.whileEditing(format: entered)
@@ -63,9 +63,19 @@ final class DecimalInputStringFormatterTests: XCTestCase {
         XCTAssertEqual(expected, result)
     }
 
-    func test_whileEditingFormatDecimal_whenCalledDashWithOnlyCharactersAndDecimalSepartor_returnsEmptyString() {
+    func test_whileEditingFormatDecimal_whenCalledDashWithOnlyCharactersAndDecimalSepartor_returnsDashAndDecimalSepartor() {
         let entered = "-AAA\(decimalSeparator)"
-        let expected = "-0."
+        let expected = "-\(decimalSeparator)"
+        let sut = createSUT()
+        
+        let result = sut.whileEditing(format: entered)
+        
+        XCTAssertEqual(expected, result)
+    }
+    
+    func test_whileEditingFormatDecimal_whenCalledDashAndDecimalSepartor_returnsDashAndDecimalSepartor() {
+        let entered = "-\(decimalSeparator)"
+        let expected = "-\(decimalSeparator)"
         let sut = createSUT()
         
         let result = sut.whileEditing(format: entered)
@@ -198,6 +208,36 @@ final class DecimalInputStringFormatterTests: XCTestCase {
     
     func test_whenDoneEditing_negativeZero_returnZero() {
         let entered = "-0"
+        let expected = "0"
+        let sut = createSUT()
+        
+        let result = sut.whenDoneEditing(format: entered)
+        
+        XCTAssertEqual(expected, result)
+    }
+    
+    func test_whenDoneEditing_whenCalledWithOnlyDecimapSeparator_returnsZero()  {
+        let entered = "\(decimalSeparator)"
+        let expected = "0"
+        let sut = createSUT()
+        
+        let result = sut.whenDoneEditing(format: entered)
+        
+        XCTAssertEqual(expected, result)
+    }
+
+    func test_whenDoneEditing_whenCalledWithDashStringAndDecimalSepartor_returnsZero() {
+        let entered = "-AAA\(decimalSeparator)"
+        let expected = "0"
+        let sut = createSUT()
+        
+        let result = sut.whenDoneEditing(format: entered)
+        
+        XCTAssertEqual(expected, result)
+    }
+    
+    func test_whenDoneEditing_whenCalledWithDashAndDecimalSepartor_returnsZero() {
+        let entered = "-\(decimalSeparator)"
         let expected = "0"
         let sut = createSUT()
         
