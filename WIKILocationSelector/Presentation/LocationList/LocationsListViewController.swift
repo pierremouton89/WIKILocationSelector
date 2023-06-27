@@ -34,6 +34,7 @@ class LocationsListViewController: UIViewController {
         stackView.addArrangedSubview(captureView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        stackView.backgroundColor = .white
         return stackView
     }()
 
@@ -68,8 +69,8 @@ class LocationsListViewController: UIViewController {
     
     private func setupView() {
         self.view.backgroundColor = .white
-        view.addSubview(captureContainer)
         view.addSubview(table)
+        view.addSubview(captureContainer)
         view.addSubview(loadingView)
         table.delegate = self
         table.dataSource = self
@@ -123,17 +124,19 @@ class LocationsListViewController: UIViewController {
     }
     
     private func bindOpenLocation(viewModel: LocationsListViewModel) {
-        self.captureView.setOpenLocation {[weak self] in self?.viewModel.openLocation() }
+        self.captureView.setOpenLocation {[weak self] in
+            self?.viewModel.openLocation()
+            self?.dismissKeyboard()
+        }
         self.viewModel.openLocationEnabled.bind {[weak self] in self?.captureView.setOpenLocation(enabled: $0) }
     }
     
     private func bindAddLocation(viewModel: LocationsListViewModel) {
-        self.captureView.setAddLocation{[weak self] in self?.viewModel.addLocation() }
+        self.captureView.setAddLocation{[weak self] in
+            self?.viewModel.addLocation()
+            self?.dismissKeyboard()
+        }
         self.viewModel.addLocationEnabled.bind {[weak self] in self?.captureView.setAddLocation(enabled: $0) }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
     
     private func showLoading() {
@@ -143,6 +146,10 @@ class LocationsListViewController: UIViewController {
     private func hideLoading() {
         self.loadingView.stopAnimating()
         self.view.isUserInteractionEnabled = true
+    }
+    
+    private func dismissKeyboard() {
+        self.view.endEditing(true)
     }
    
 }
@@ -155,6 +162,7 @@ extension LocationsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.viewModel.selectLocation(at: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
+        dismissKeyboard()
     }
 }
 extension LocationsListViewController: UITableViewDataSource {
