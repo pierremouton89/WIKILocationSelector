@@ -7,6 +7,18 @@
 
 import Foundation
 
+struct LocationDegreeBounds:Equatable {
+    let max: Double
+    let min: Double
+    
+    static var latitude: Self {
+        return .init(max: 90, min: -90)
+    }
+    static var longitude: Self {
+        return .init(max: 180, min: -180)
+    }
+}
+
 class LocationDegreeInputFormatter {
 
     func whileEditing(format decimalValue: String, decimalSeparator: String = String.decimalSeparator) -> String {
@@ -29,7 +41,8 @@ class LocationDegreeInputFormatter {
         return "\(sanitesedFirstNumber)\(decimalSeparator)\(numbers.suffix(from: 1).joined(separator:""))"
     }
     
-    func whenDoneEditing(format decimalValue: String, decimalSeparator: String = String.decimalSeparator) -> String {
+    
+    func whenDoneEditing(format decimalValue: String, decimalSeparator: String = String.decimalSeparator, degreeBounds: LocationDegreeBounds) -> String {
         guard !decimalValue.isEmpty else {
             return ""
         }
@@ -38,7 +51,16 @@ class LocationDegreeInputFormatter {
         if value == 0 {
             return "0"
         }
-        return NumberFormatter.degreeNumberFormatter.string(from: NSNumber(value: value)) ?? "0"
+        let formatter = NumberFormatter.degreeNumberFormatter
+        let sanitisedValue: Double
+        if value > degreeBounds.max {
+            sanitisedValue = degreeBounds.max
+        } else if value < degreeBounds.min {
+            sanitisedValue = degreeBounds.min
+        } else {
+            sanitisedValue = value
+        }
+        return formatter.string(from: NSNumber(value: sanitisedValue)) ?? "0"
     }
     
 }

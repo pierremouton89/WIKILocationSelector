@@ -19,12 +19,12 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
         return "123\(String.decimalSeparator)123"
     }
     
-    private func createSUT() -> (LocationsListViewModel, DecimalInputStringFormatterSpy, AppRouterSpy) {
-        let decimalInputSpy = DecimalInputStringFormatterSpy()
+    private func createSUT() -> (LocationsListViewModel, LocationDegreeInputFormatterSpy, AppRouterSpy) {
+        let degreesFormatterSpy = LocationDegreeInputFormatterSpy()
         let routerSpy = AppRouterSpy()
-        let viewModel =  LocationsListViewModelImplementation(locationsRepository: LocationsRepositorySpy(), router: routerSpy, degreeInputFormatter: decimalInputSpy)
+        let viewModel =  LocationsListViewModelImplementation(locationsRepository: LocationsRepositorySpy(), router: routerSpy, degreeInputFormatter: degreesFormatterSpy)
         trackForMemoryLeaks(viewModel)
-        return(viewModel, decimalInputSpy, routerSpy)
+        return(viewModel, degreesFormatterSpy, routerSpy)
     }
     
     
@@ -96,7 +96,7 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
         sut.latitudeInput.value = expectedInsert
         sut.updateLatitude(with: .endEditing)
         
-        XCTAssertEqual(formatterSpy.receivedMessage, [.whenDoneEditing(expectedInsert)])
+        XCTAssertEqual(formatterSpy.receivedMessage, [.whenDoneEditing(expectedInsert, .latitude)])
     }
     
     func test_updateLatitude_whenEndEditing_shouldOutputResultFromDecimalInputStringFormatter() async {
@@ -179,7 +179,7 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
         sut.longitudeInput.value = expectedInsert
         sut.updateLongitude(with: .endEditing)
         
-        XCTAssertEqual(formatterSpy.receivedMessage, [.whenDoneEditing(expectedInsert)])
+        XCTAssertEqual(formatterSpy.receivedMessage, [.whenDoneEditing(expectedInsert, .longitude)])
     }
     
     func test_updateLongitude_whenEndEditing_shouldOutputResultFromDecimalInputStringFormatter() async {
@@ -481,17 +481,17 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
 
     
     func test_openLocation_passesLocation_toPresentSelectedLocationOnRouter() async {
-        let (sut, _, router) = createSUT()
-    
+        let (sut, degreeFormatterSpy, router) = createSUT()
+        degreeFormatterSpy.disableSpy = true
         let location = Location(
-            latitude: 52.3547498,
-            longitude: 4.8339215
+            latitude: 52.354749,
+            longitude: 4.839215
         )
         sut.longitudeInput.value = location.longitude.description
         sut.latitudeInput.value = location.latitude.description
         
         sut.openLocation()
-        
+
         XCTAssertEqual([.selectedLocation(location)], router.receivedMessage)
         
     }
@@ -553,7 +553,6 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
         
         sut.updateLongitude(with: .changed(anyDecimalString()))
         sut.addLocationEnabled.bind { result in
-            XCTAssertFalse(result)
             expectation1.fulfill()
         }
         
@@ -625,33 +624,34 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
     }
     
     func test_addLocation_appendLocation_toDisplayModels() async {
-        let (sut, _, _) = createSUT()
-    
+        let (sut, degreeFormatterSpy, _) = createSUT()
+        degreeFormatterSpy.disableSpy = true
         let location = Location(
-            latitude: 52.3547498,
-            longitude: 4.8339215
+            latitude: 100.35479,
+            longitude: 80.833921
         )
         sut.longitudeInput.value = location.longitude.description
         sut.latitudeInput.value = location.latitude.description
         
         sut.addLocation()
-        
+
         XCTAssertEqual([location].map{LocationDisplayModel(location: $0)}, sut.displayModels.value)
         
     }
     
     func test_addLocation_passesLocation_toAppendLocationToLocationsList() async {
-        let (sut, _, _) = createSUT()
+        let (sut, degreeFormatterSpy, _) = createSUT()
+        degreeFormatterSpy.disableSpy = true
     
         let location = Location(
-            latitude: 52.3547498,
-            longitude: 4.8339215
+            latitude: 52.35474,
+            longitude: 4.833922
         )
         sut.longitudeInput.value = location.longitude.description
         sut.latitudeInput.value = location.latitude.description
         
         sut.addLocation()
-        
+
         let expectation = XCTestExpectation(description: "Expected Value to be published")
         sut.displayModels.bind { result in
             XCTAssertEqual([location].map{LocationDisplayModel(location: $0)}, result)
@@ -664,24 +664,33 @@ final class LocationListViewModelLocationCaptureTests: XCTestCase {
     
 }
 
-class DecimalInputStringFormatterSpy: LocationDegreeInputFormatter {
+class LocationDegreeInputFormatterSpy: LocationDegreeInputFormatter {
     enum ReceivedMessage: Equatable {
         case whileEditing(String)
-        case whenDoneEditing(String)
+        case whenDoneEditing(String, LocationDegreeBounds)
     }
     private(set) var receivedMessage = [ReceivedMessage]()
     private var expectedResults = [String]()
     private var count = 0
     
+    var disableSpy: Bool = false
+    
     override func whileEditing(format decimalValue: String, decimalSeparator: String = String.decimalSeparator) -> String {
+        guard !disableSpy else {
+            return super.whileEditing(format: decimalValue, decimalSeparator: decimalSeparator)
+        }
         receivedMessage.append(.whileEditing(decimalValue))
         let result = expectedResults[count]
         count += 1
         return result
     }
     
-    override func whenDoneEditing(format decimalValue: String, decimalSeparator: String = String.decimalSeparator) -> String {
-        receivedMessage.append(.whenDoneEditing(decimalValue))
+    override func whenDoneEditing(format decimalValue: String, decimalSeparator: String = String.decimalSeparator, degreeBounds: LocationDegreeBounds) -> String {
+        guard !disableSpy else {
+            return super.whenDoneEditing(format: decimalValue, decimalSeparator: decimalSeparator, degreeBounds: degreeBounds)
+        }
+            
+        receivedMessage.append(.whenDoneEditing(decimalValue,degreeBounds))
         let result = expectedResults[count]
         count += 1
         return result

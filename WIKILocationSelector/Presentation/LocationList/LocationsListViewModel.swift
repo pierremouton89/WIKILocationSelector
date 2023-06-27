@@ -102,7 +102,7 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
                 inputField.value = degreeInputFormatter.whileEditing(format: value)
             }
         case .endEditing:
-            inputField.value = degreeInputFormatter.whenDoneEditing(format: originalValue)
+            inputField.value = degreeInputFormatter.whenDoneEditing(format: originalValue, degreeBounds: .latitude)
         }
         checkButtonEnabled()
     }
@@ -116,7 +116,7 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
                 inputField.value = degreeInputFormatter.whileEditing(format: value)
             }
         case .endEditing:
-            inputField.value = degreeInputFormatter.whenDoneEditing(format: originalValue)
+            inputField.value = degreeInputFormatter.whenDoneEditing(format: originalValue, degreeBounds: .longitude)
         }
         checkButtonEnabled()
         
@@ -140,8 +140,8 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     
     func openLocation() {
         guard
-            let latitude = Double(latitudeInput.value),
-            let longitude = Double(longitudeInput.value)
+            let latitude = Double(degreeInputFormatter.whenDoneEditing(format: latitudeInput.value, degreeBounds: .longitude)),
+            let longitude = Double(degreeInputFormatter.whenDoneEditing(format: longitudeInput.value, degreeBounds: .longitude))
         else {
             return self.router.presentAlert(with: "Something went wrong with input")
         }
@@ -154,8 +154,8 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     
     func addLocation() {
         guard
-            let latitude = Double(latitudeInput.value),
-            let longitude = Double(longitudeInput.value)
+            let latitude = Double(degreeInputFormatter.whenDoneEditing(format: latitudeInput.value, degreeBounds: .longitude)),
+            let longitude = Double(degreeInputFormatter.whenDoneEditing(format: longitudeInput.value, degreeBounds: .longitude))
         else {
             return self.router.presentAlert(with: "Something went wrong with input")
         }

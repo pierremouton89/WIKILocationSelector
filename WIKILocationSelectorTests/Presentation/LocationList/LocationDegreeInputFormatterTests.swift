@@ -136,62 +136,83 @@ final class LocationDegreeInputFormatterTests: XCTestCase {
     
     // MARK: - whenDoneEditing
     
-    func test_whenDoneEditing_negativeWithTrailingDecimalSepartor_returnNegativeWithRemoveSeperator()  {
-        let entered = "-30001\(decimalSeparator)"
-        let expected = "-30001"
+    func test_whenDoneEditing_negativeWithTrailingDecimalSepartor_returnNegativeWithRemovedDecimalSeperator()  {
+        let entered = "-1\(decimalSeparator)"
+        let expected = "-1"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
     
-    func test_whenDoneEditing_negativeWithPrefixedZeroDecimalSepartor_returnNegativeWithRemovePrefixedZero() {
-        let entered = "-0030001"
-        let expected = "-30001"
+    func test_whenDoneEditing_whenNegativeValueLargerThanSpecified_returnMinimumValue()  {
+        let entered = "-10001"
+        let expected = "-90"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
+        
+        XCTAssertEqual(expected, result)
+    }
+    
+    
+    func test_whenDoneEditing_negativeWithPrefixedZeroDecimalSepartor_returnNegativeWithRemovePrefixedZero() {
+        let entered = "-0031"
+        let expected = "-31"
+        let sut = createSUT()
+        
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
     
     func test_whenDoneEditing_negativeDecimalWithPrefixedZerosAndSuffixed_returnTrimZeros() {
-        let entered = "-0030001\(decimalSeparator)001313000"
-        let expected = "-30001\(decimalSeparator)001313"
+        let entered = "-0012\(decimalSeparator)001313000"
+        let expected = "-12\(decimalSeparator)001313"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
     
-    func test_whenDoneEditing_postiveWithTrailingDecimalSepartor_returnWithRemoveSeperator()  {
-        let entered = "30101\(decimalSeparator)"
-        let expected = "30101"
+    func test_whenDoneEditing_postiveWithTrailingDecimalSepartor_returnsWithRemoveDecimalSeperator()  {
+        let entered = "50\(decimalSeparator)"
+        let expected = "50"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
     
-    func test_whenDoneEditing_positiveWithPrefixedZeroDecimalSepartor_returnNeWithRemovePrefixedZero() {
-        let entered = "000030012"
-        let expected = "30012"
+    func test_whenDoneEditing_positiveWithPrefixedZeroDecimalSepartor_returnsWithRemovePrefixedZero() {
+        let entered = "000013"
+        let expected = "13"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
     
     func test_whenDoneEditing_positiveDecimalWithPrefixedZerosAndSuffixed_returnTrimZeros() {
-        let entered = "0030301\(decimalSeparator)00098000"
-        let expected = "30301\(decimalSeparator)00098"
+        let entered = "00011\(decimalSeparator)00098000"
+        let expected = "11\(decimalSeparator)00098"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
+        
+        XCTAssertEqual(expected, result)
+    }
+    
+    func test_whenDoneEditing_whenNegativeValueLargerThanSpecified_returMaximumValue()  {
+        let entered = "1000"
+        let expected = "90"
+        let sut = createSUT()
+        
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
@@ -201,7 +222,7 @@ final class LocationDegreeInputFormatterTests: XCTestCase {
         let expected = ""
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
@@ -211,7 +232,7 @@ final class LocationDegreeInputFormatterTests: XCTestCase {
         let expected = "0"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
@@ -221,7 +242,7 @@ final class LocationDegreeInputFormatterTests: XCTestCase {
         let expected = "0"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
@@ -231,7 +252,7 @@ final class LocationDegreeInputFormatterTests: XCTestCase {
         let expected = "0"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
@@ -241,7 +262,7 @@ final class LocationDegreeInputFormatterTests: XCTestCase {
         let expected = "0"
         let sut = createSUT()
         
-        let result = sut.whenDoneEditing(format: entered)
+        let result = sut.whenDoneEditing(format: entered, degreeBounds: .init(max: 90, min: -90))
         
         XCTAssertEqual(expected, result)
     }
