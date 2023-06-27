@@ -94,7 +94,7 @@ class LocationCaptureView: UIView {
         let field = UITextField()
         field.font = Design.inputFont
         field.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        field.keyboardType = .numbersAndPunctuation
+        field.keyboardType = .decimalPad
         field.addTarget(self, action: #selector(latitudeTextChange(textField:)), for: .editingChanged)
         field.addTarget(self, action: #selector(latitudeTextEndEditing), for: .editingDidEnd)
         return field
@@ -134,7 +134,7 @@ class LocationCaptureView: UIView {
         let field = UITextField()
         field.setContentHuggingPriority(.defaultLow, for: .horizontal)
         field.font = Design.inputFont
-        field.keyboardType = .numbersAndPunctuation
+        field.keyboardType = .decimalPad
         field.addTarget(self, action: #selector(longitudeTextChange(textField:)), for: .editingChanged)
         field.addTarget(self, action: #selector(longitudeTextEndEditing), for: .editingDidEnd)
         return field
