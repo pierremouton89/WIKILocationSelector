@@ -54,7 +54,6 @@ class LocationCaptureView: UIView {
     private var nameInputListener: InputTextChangeListener?
     private lazy var nameInput: UITextField = {
         let field = UITextField()
-        field.addDoneToolbar()
         field.setContentHuggingPriority(.defaultLow, for: .horizontal)
         field.font = Design.inputFont
         field.addTarget(self, action: #selector(nameTextChange(textField:)), for: .editingChanged)
@@ -93,7 +92,6 @@ class LocationCaptureView: UIView {
     private var latitudeInputListener: InputTextChangeListener?
     private lazy var latitudeInput: UITextField = {
         let field = UITextField()
-        field.addDoneToolbar()
         field.font = Design.inputFont
         field.setContentHuggingPriority(.defaultLow, for: .horizontal)
         field.keyboardType = .numbersAndPunctuation
@@ -134,10 +132,9 @@ class LocationCaptureView: UIView {
     private var longitudeInputListener: InputTextChangeListener?
     private lazy var longitudeInput: UITextField = {
         let field = UITextField()
-        field.addDoneToolbar()
         field.setContentHuggingPriority(.defaultLow, for: .horizontal)
         field.font = Design.inputFont
-        field.keyboardType = .decimalPad
+        field.keyboardType = .numbersAndPunctuation
         field.addTarget(self, action: #selector(longitudeTextChange(textField:)), for: .editingChanged)
         field.addTarget(self, action: #selector(longitudeTextEndEditing), for: .editingDidEnd)
         return field
@@ -306,24 +303,3 @@ extension LocationCaptureView {
     }
 }
 
-
-extension UITextField {
-    
-    func addDoneToolbar() {
-        let toolBar = UIToolbar(frame:CGRect(x:0, y:0, width:100, height:100))
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = true
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissKeyboard))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolBar.setItems([spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        self.inputAccessoryView = toolBar
-    }
-    
-    @objc private func dismissKeyboard() {
-        self.endEditing(true)
-    }
-}
