@@ -163,12 +163,9 @@ class LocationCaptureView: UIView {
     }()
     
     private lazy var addLocation: UIButton = {
-        let button = UIButton(type: .system)
+        let button = BorderButton(type: .system)
         button.setTitle("Add", for: .normal)
         button.addTarget(self, action: #selector(onAddLocationTapped), for: .touchUpInside)
-        button.layer.borderWidth = 1.0
-        button.layer.borderColor = button.tintColor.cgColor
-        button.layer.cornerRadius = Design.smallSpacing
         return button
     }()
     
@@ -179,12 +176,9 @@ class LocationCaptureView: UIView {
     }
     
     private lazy var openLocation: UIButton = {
-        let button = UIButton(type: .system)
+        let button = BorderButton(type: .system)
         button.setTitle("Open", for: .normal)
         button.addTarget(self, action: #selector(onOpenLocationTapped), for: .touchUpInside)
-        button.layer.borderWidth = 1.0
-        button.layer.borderColor = button.tintColor.cgColor
-        button.layer.cornerRadius = Design.smallSpacing
         return button
     }()
     
@@ -303,3 +297,23 @@ extension LocationCaptureView {
     }
 }
 
+
+class BorderButton: UIButton {
+    
+    override var isEnabled: Bool {
+        didSet {
+            updateBorderLayer(isEnabled)
+        }
+    }
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateBorderLayer(isEnabled)
+    }
+    private func updateBorderLayer(_ enabled: Bool) {
+        self.layer.borderWidth = 1.0
+        self.layer.borderColor = enabled ? self.tintColor.cgColor : UIColor.lightGray.cgColor
+        self.layer.cornerRadius = Design.smallSpacing
+    }
+}
