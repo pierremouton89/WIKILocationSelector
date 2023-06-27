@@ -59,8 +59,8 @@ class LocationTableViewCell: UITableViewCell {
             trailing: Design.largeSpacing
         )
         stackView.addArrangedSubview(name)
-        stackView.addArrangedSubview(longitudeStack)
         stackView.addArrangedSubview(latitudeStack)
+        stackView.addArrangedSubview(longitudeStack)
         return stackView
     }()
     
