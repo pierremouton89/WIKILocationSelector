@@ -14,8 +14,7 @@ class LocationTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "globe")
-        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        imageView.image = UIImage(named: "W") ?? UIImage(systemName: "location.circle")
         return imageView
     }()
     
@@ -151,6 +150,7 @@ class LocationTableViewCell: UITableViewCell {
             self.contentStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor), //bottom stackview
             self.contentView.trailingAnchor.constraint(equalTo: contentStack.trailingAnchor), //trailing
             self.contentView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),// leading
+            image.widthAnchor.constraint(equalTo: contentStack.widthAnchor, multiplier: 0.1),
         ])
     }
     
