@@ -46,12 +46,12 @@ protocol LocationsListViewModel {
 class LocationsListViewModelImplementation: LocationsListViewModel {
     
     static let TITLE = "Locations"
-    static let NAME_DESCRIPTION = "Name"
+    static let NAME_DESCRIPTION = "Name:"
     static let NAME_PLACEHOLDER = "Unknown"
-    static let LATITUDE_DESCRIPTION = "Latitude"
-    static let LATITUDE_PLACEHOLDER = "0.0"
-    static let LONGITUDE_DESCRIPTION = "Longitude"
-    static let LONGITUDE_PLACEHOLDER = "0.0"
+    static let LATITUDE_DESCRIPTION = "Latitude:"
+    static let LATITUDE_PLACEHOLDER = "Decimal value between 90 and -90"
+    static let LONGITUDE_DESCRIPTION = "Longitude:"
+    static let LONGITUDE_PLACEHOLDER = "Decimal value between 180 and -180"
     
     private let locationsRepository: LocationsRepository
     private(set) var title = Box<String>(TITLE)
@@ -66,7 +66,7 @@ class LocationsListViewModelImplementation: LocationsListViewModel {
     private(set) var latitudeDescription = Box<String>(LATITUDE_DESCRIPTION)
     private(set) var latitudeInput = Box<String>("")
     
-    private(set) var longitudePlaceHolder = Box<String>(LATITUDE_PLACEHOLDER)
+    private(set) var longitudePlaceHolder = Box<String>(LONGITUDE_PLACEHOLDER)
     private(set) var longitudeDescription = Box<String>(LONGITUDE_DESCRIPTION)
     private(set) var longitudeInput = Box<String>("")
     private(set) var openLocationEnabled = Box<Bool>(false)
