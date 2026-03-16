@@ -13,7 +13,7 @@ WIKILocationSelector fetches a list of named locations from a remote JSON API, d
 ## Features
 
 - **Remote location list** — fetches locations from a public JSON endpoint on app launch.
-- **Wikipedia deep linking** — taps a row to open that location in the Wikipedia iOS app (`wikipedia://places?location=…`).
+- **Wikipedia deep linking** — tap a row to open that location in the Wikipedia iOS app (`wikipedia://places?location=…`).
 - **Custom coordinates** — enter a name (optional) plus latitude and longitude to create a new location.
 - **Add to list** — save a custom location to the in-session list.
 - **Open directly** — open a custom coordinate pair in Wikipedia without adding it to the list.
@@ -92,7 +92,7 @@ App launch
                                                         └─► Box<[LocationDisplayModel]> triggers table reload
 
 User taps row
-  └─► viewModel.selectLocation(index)
+  └─► viewModel.selectLocation(at: index)
         └─► AppRouter.presentSelected(location)
               └─► wikipedia://places?location=<base64-json>
 
